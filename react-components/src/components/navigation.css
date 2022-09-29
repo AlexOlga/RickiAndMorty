@@ -1,15 +1,17 @@
 .nav{
-    display: flex;
-    justify-content: space-around;
+    display: flex;    
 }
 
 .link {
-    color: #61dafb;
+    color: #fff;
+    margin-right: 15px;
+    text-decoration: none;
   }
 
 .link:hover{
     color: #0a657e;
 }
 .active{
-    color: brown;
+    color: #61dafb;
+    font-weight: bold;
 }
