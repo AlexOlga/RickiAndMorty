@@ -1,0 +1,20 @@
+.character_card{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    box-shadow: 18px 23px 14px -12px rgba(7, 7, 7, 0.2);
+}
+.character_name{
+    color:  #0a657e;
+    text-align: center;
+}
+/*.character_img{
+
+}*/
+.text-contener{
+    padding: 10px;
+}
+span {
+    font-weight: bold;
+    color:  #0a657e;
+}

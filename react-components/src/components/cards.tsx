@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import Card from './card';
+
 interface ICharacter {
   id?: number;
   name?: string;
   image?: string;
+  status?: string;
+  species?: string;
 }
-// https://rickandmortyapi.com/api/character
+
 type CardsState = {
   data: ICharacter[];
 };
@@ -30,11 +34,11 @@ class Cards extends Component<ICharacter, CardsState> {
     return (
       <div>
         <h1>Character:</h1>
-        {/* <ul className="posts">
-            {data.map(({ id, title }: IPost) =>
-              <li key={id}><Link to={`/posts/${id}`}>{title}</Link></li>
-            )}
-          </ul>*/}
+        <div className="cards-contener">
+          {data.map((item: ICharacter) => (
+            <Card {...item} key={item.id} />
+          ))}
+        </div>
       </div>
     );
   }
