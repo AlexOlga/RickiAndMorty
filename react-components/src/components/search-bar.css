@@ -1,7 +1,13 @@
 .search{
-margin-left: auto;
-padding: 5px;
-font-size: 14px;
-border-radius: 20px;
-width: 30%;
+    margin:0 auto;
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 20px;
+    border-color: #61dafb;
+    width: 50%;
+    outline:none;
+}
+.search:focus,
+.search:hover{
+    border-color:#0a657e;
 }

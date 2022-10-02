@@ -1,10 +1,10 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import "./App.css";
-import Navigation from "./components/navigation";
-import About from "./components/about";
-import ErrorPage from "./components/error-page";
-import HomePage from "components/home-page";
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import './App.css';
+import Navigation from './components/navigation';
+import About from './components/about';
+import ErrorPage from './components/error-page';
+import HomePage from 'components/home-page';
 
 function App() {
   return (

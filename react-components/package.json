@@ -24,21 +24,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "prettier": {
-    "endOfLine": "auto",
-    "semi": true,
-    "tabWidth": 2,
-    "singleQuote": true,
-    "trailingComma": "es5",
-    "printWidth": 100,
-    "arrowParens": "always"
-  },
   "browserslist": {
     "production": [
       ">0.2%",
