@@ -1,6 +1,6 @@
 import React from 'react';
-import SearchBar from './search-bar';
-import Cards from './cards';
+import SearchBar from './search-bar/search-bar';
+import Cards from './cards/cards';
 
 const HomePage = () => {
   return (

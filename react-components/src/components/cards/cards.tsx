@@ -1,17 +1,7 @@
 import React, { Component } from 'react';
-import Card from './card';
-
-interface ICharacter {
-  id?: number;
-  name?: string;
-  image?: string;
-  status?: string;
-  species?: string;
-}
-
-type CardsState = {
-  data: ICharacter[];
-};
+import { ICharacter, CardsState } from '../../types';
+import './cards.css';
+import Card from '../card/card';
 
 class Cards extends Component<ICharacter, CardsState> {
   state = {

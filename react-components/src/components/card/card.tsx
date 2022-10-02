@@ -1,13 +1,6 @@
 import React from 'react';
+import { ICharacter } from '../../types';
 import './card.css';
-
-interface ICharacter {
-  id?: number;
-  name?: string;
-  image?: string;
-  status?: string;
-  species?: string;
-}
 
 class Card extends React.Component<ICharacter> {
   render() {
