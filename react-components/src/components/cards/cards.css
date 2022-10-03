@@ -2,4 +2,9 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    justify-content: center;
+}
+.title{
+    text-align: center;
+    color:  #0a657e;
 }

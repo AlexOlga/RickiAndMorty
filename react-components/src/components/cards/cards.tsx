@@ -23,7 +23,7 @@ class Cards extends Component<ICharacter, CardsState> {
     console.log('state', data);
     return (
       <div>
-        <h1>Character:</h1>
+        <h1 className="title">Characters from the TV show Rick and Morty</h1>
         <div className="cards-contener">
           {data.map((item: ICharacter) => (
             <Card {...item} key={item.id} />

@@ -1,11 +1,11 @@
 import React from 'react';
+import './pages.css';
 import SearchBar from './search-bar/search-bar';
 import Cards from './cards/cards';
 
 const HomePage = () => {
   return (
-    <div>
-      <h1>Home Page</h1>
+    <div className="wrapper">
       <SearchBar />
       <Cards />
     </div>
