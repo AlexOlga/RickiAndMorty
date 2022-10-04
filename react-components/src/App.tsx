@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import './App.css';
 import Navigation from './components/navigation/navigation';
 import About from './components/about';
@@ -12,11 +12,11 @@ function App() {
       <header className="App-header">
         <Navigation />
       </header>
-      <Routes>
+      <BrowserRouter basename="/alexolga-REACT2022Q3">
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<About />} />
         <Route path="*" element={<ErrorPage />} />
-      </Routes>
+      </BrowserRouter>
     </>
   );
 }

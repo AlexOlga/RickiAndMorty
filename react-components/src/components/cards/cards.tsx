@@ -12,15 +12,12 @@ class Cards extends Component<ICharacter, CardsState> {
     fetch('https://rickandmortyapi.com/api/character')
       .then((res) => res.json())
       .then((data) => {
-        console.log('data', data);
-        console.log('data results', data.results);
         this.setState({ data: data.results });
       });
   }
 
   render() {
     const { data } = this.state;
-    console.log('state', data);
     return (
       <div>
         <h1 className="title">Characters from the TV show Rick and Morty</h1>

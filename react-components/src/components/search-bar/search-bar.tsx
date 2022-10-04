@@ -40,7 +40,7 @@ class SearchBar extends Component<Record<string, never>, SearchState> {
           value={inputText}
           onChange={this.handleInputChange}
           onKeyPress={this.handleKeyPress}
-          placeholder="Search bar"
+          placeholder="Search character"
           className="search"
         />
       </>
