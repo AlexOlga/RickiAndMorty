@@ -11,6 +11,9 @@ function Navigation() {
       <NavLink to="/about" className="link">
         About
       </NavLink>
+      <NavLink to="/forms" className="link">
+        Create characters
+      </NavLink>
     </nav>
   );
 }

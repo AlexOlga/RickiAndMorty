@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Navigation from './components/navigation/navigation';
 import About from './components/about';
+import FormsPage from './components/forms-page';
 import ErrorPage from './components/error-page';
 import HomePage from 'components/home-page';
 
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<About />} />
+        <Route path="/forms" element={<FormsPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </>
