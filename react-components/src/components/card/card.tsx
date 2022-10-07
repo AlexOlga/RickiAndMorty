@@ -10,10 +10,10 @@ class Card extends React.Component<ICharacter> {
         <img className="character_img" src={this.props.image} alt="Character image" />
         <div className="text-contener">
           <p>
-            <span>Status: </span> {this.props.status}
+            <span className="character_category">Status: </span> {this.props.status}
           </p>
           <p>
-            <span>Species: </span>
+            <span className="character_category">Species: </span>
             {this.props.species}
           </p>
         </div>

@@ -1,9 +1,9 @@
 import React from 'react';
+import Forms from './forms/forms';
 const FormsPage = () => {
   return (
     <div>
-      <h1>Create your characters</h1>
-      <p>тут будет форма</p>
+      <Forms />
     </div>
   );
 };

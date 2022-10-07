@@ -12,7 +12,7 @@
 .text-contener{
     padding: 10px;
 }
-span {
+.character_category {
     font-weight: bold;
     color:  #0a657e;
 }
