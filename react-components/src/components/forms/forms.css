@@ -78,11 +78,15 @@ input:checked + .slider:before {
   cursor: pointer;
   transition: 0.3s;
 }
-.form_button:focus,
 .form_button:hover{
-         background-color: rgba(10, 101, 126, 0.7);
+  background-color: rgba(10, 101, 126, 0.7);
  }
 
+.form_button[disabled] {
+  color: #d2d5db;
+  background: #6c7589;
+  cursor: not-allowed;
+}
 .form_title { 
   text-align: center; 
   margin: 0 0 10px 0; 
