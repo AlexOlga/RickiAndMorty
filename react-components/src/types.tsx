@@ -10,4 +10,13 @@ type CardsState = {
   data: ICharacter[];
 };
 
-export { ICharacter, CardsState };
+type FormFilds = {
+  name: HTMLInputElement;
+  date: HTMLInputElement;
+  gender: HTMLSelectElement;
+  img: HTMLInputElement;
+  switch: HTMLInputElement;
+  check: HTMLInputElement;
+};
+
+export { ICharacter, CardsState, FormFilds };

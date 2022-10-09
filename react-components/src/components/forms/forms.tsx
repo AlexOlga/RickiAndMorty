@@ -1,20 +1,14 @@
 import React, { Component } from 'react';
-// import { ICharacter } from '../../types';
+import { FormFilds } from '../../types';
 import './forms.css';
-type FormFilds = {
-  name: HTMLInputElement;
-  date: HTMLInputElement;
-  gender: HTMLSelectElement;
-  img: HTMLInputElement;
-  switch: HTMLInputElement;
-  check: HTMLInputElement;
-};
 
+const MAX_IMAGE_SIZE = 1048576;
 class Forms extends Component {
   flag: Record<string, boolean>; // красные подсказки
   isGender: boolean;
   isSumbit: boolean; // доступность кнопки
   isChangeForm: boolean; // первое изменений формы
+  isImgSize: boolean; // размер изображеня
   constructor(props: Record<string, never>) {
     super(props);
     this.flag = {
@@ -26,6 +20,7 @@ class Forms extends Component {
     this.isGender = false;
     this.isChangeForm = false;
     this.isSumbit = true;
+    this.isImgSize = false;
   }
 
   handleSubmit(event: React.FormEvent<HTMLFormElement & FormFilds>) {
@@ -47,6 +42,9 @@ class Forms extends Component {
     if (form.img.value === '') {
       this.flag.isImg = true;
       isChangeState = true;
+    } else {
+      this.checkSizeImage(form.img.files);
+      isChangeState = true;
     }
     if (form.check.checked === false) {
       this.flag.isCheck = true;
@@ -60,6 +58,14 @@ class Forms extends Component {
       console.log('фома заполнена');
     }
   }
+  checkSizeImage(curFiles: FileList | null) {
+    if (curFiles) {
+      const file = curFiles[0];
+      if (file.size > MAX_IMAGE_SIZE) {
+        this.isImgSize = true;
+      }
+    }
+  }
   isFirstActivation() {
     if (!this.isChangeForm) {
       this.isChangeForm = true;
@@ -70,6 +76,7 @@ class Forms extends Component {
         this.flag.isName ||
         this.flag.isDate ||
         this.flag.isImg ||
+        this.isImgSize ||
         this.flag.isCheck;
     }
     this.forceUpdate();
@@ -81,9 +88,29 @@ class Forms extends Component {
     } else {
       this.flag[keyFlag] = !(e.target.value !== '');
     }
+    if (keyFlag === 'isImg') {
+      const curFiles = e.target.files;
+      // const file = e.target.files;
+      if (curFiles) {
+        console.log('curFiles', curFiles);
+        const file = curFiles[0];
+        if (file.size > 1048576) {
+          console.log('не грузите слона');
+        } else {
+          console.log(file.size);
+          const url = URL.createObjectURL(file);
+          console.log(url);
+        }
+      }
+    }
     this.isFirstActivation();
   }
+  /* handleImageChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    if (e.target.value !== ''){
 
+    }
+
+  } */
   handleGanderChange(e: React.ChangeEvent<HTMLSelectElement>) {
     this.isGender = !(e.target.value !== '');
     this.isFirstActivation();
@@ -139,16 +166,20 @@ class Forms extends Component {
           {this.isGender && <div style={{ color: 'red' }}>Select gender</div>}
         </div>
         <div className="form_group">
-          <label className="form_label">Link to the character{"'"}s image </label>
+          <label className="form_label">
+            Link to the character{"'"}s image. Maximum image size 1 Mb{' '}
+          </label>
           <input
             className="form_file"
             type="file"
             name="img"
+            accept="image/*"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               this.handleInputChange(e, 'isImg')
             }
           />
           {this.flag.isImg && <div style={{ color: 'red' }}>Upload image</div>}
+          {this.isImgSize && <div style={{ color: 'red' }}>Image size is more than 1 Mb</div>}
         </div>
 
         <div className="form_group">
