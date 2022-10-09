@@ -25,6 +25,7 @@ class Forms extends Component {
 
   handleSubmit(event: React.FormEvent<HTMLFormElement & FormFilds>) {
     event.preventDefault();
+    if (!this.isChangeForm) this.isChangeForm = true;
     const form = event.currentTarget;
     let isChangeState = false;
     if (form.name.value === '') {
@@ -63,12 +64,14 @@ class Forms extends Component {
       const file = curFiles[0];
       if (file.size > MAX_IMAGE_SIZE) {
         this.isImgSize = true;
+      } else {
+        this.isImgSize = false;
       }
     }
   }
   isFirstActivation() {
     if (!this.isChangeForm) {
-      this.isChangeForm = true;
+      // this.isChangeForm = true;
       this.isSumbit = false;
     } else {
       this.isSumbit =
@@ -83,6 +86,7 @@ class Forms extends Component {
   }
 
   handleInputChange(e: React.ChangeEvent<HTMLInputElement>, keyFlag: string) {
+    if (!this.isChangeForm) return;
     if (keyFlag === 'isCheck') {
       this.flag[keyFlag] = !e.target.checked;
     } else {
@@ -90,7 +94,8 @@ class Forms extends Component {
     }
     if (keyFlag === 'isImg') {
       const curFiles = e.target.files;
-      // const file = e.target.files;
+      this.checkSizeImage(curFiles);
+      /* const file = e.target.files;
       if (curFiles) {
         console.log('curFiles', curFiles);
         const file = curFiles[0];
@@ -101,16 +106,11 @@ class Forms extends Component {
           const url = URL.createObjectURL(file);
           console.log(url);
         }
-      }
+      }*/
     }
     this.isFirstActivation();
   }
-  /* handleImageChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    if (e.target.value !== ''){
 
-    }
-
-  } */
   handleGanderChange(e: React.ChangeEvent<HTMLSelectElement>) {
     this.isGender = !(e.target.value !== '');
     this.isFirstActivation();
@@ -166,9 +166,7 @@ class Forms extends Component {
           {this.isGender && <div style={{ color: 'red' }}>Select gender</div>}
         </div>
         <div className="form_group">
-          <label className="form_label">
-            Link to the character{"'"}s image. Maximum image size 1 Mb{' '}
-          </label>
+          <label className="form_label">Link to the character{"'"}s image</label>
           <input
             className="form_file"
             type="file"
@@ -179,7 +177,7 @@ class Forms extends Component {
             }
           />
           {this.flag.isImg && <div style={{ color: 'red' }}>Upload image</div>}
-          {this.isImgSize && <div style={{ color: 'red' }}>Image size is more than 1 Mb</div>}
+          {this.isImgSize && <div style={{ color: 'red' }}>Maximum image size 1 Mb</div>}
         </div>
 
         <div className="form_group">
