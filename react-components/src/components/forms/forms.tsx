@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
-import { FormFilds } from '../../types';
+import { FormFilds, ICharacter } from '../../types';
 import './forms.css';
 
 const MAX_IMAGE_SIZE = 1048576;
-class Forms extends Component {
+interface FormProps {
+  greet: (a: ICharacter) => void;
+}
+
+class Forms extends Component<FormProps> {
   flag: Record<string, boolean>; // красные подсказки
-  isGender: boolean;
+  isStatus: boolean;
   isSumbit: boolean; // доступность кнопки
   isChangeForm: boolean; // первое изменений формы
   isImgSize: boolean; // размер изображеня
-  constructor(props: Record<string, never>) {
+  constructor(props: FormProps) {
     super(props);
     this.flag = {
       isName: false,
@@ -17,7 +21,7 @@ class Forms extends Component {
       isImg: false,
       isCheck: false,
     };
-    this.isGender = false;
+    this.isStatus = false;
     this.isChangeForm = false;
     this.isSumbit = true;
     this.isImgSize = false;
@@ -36,8 +40,8 @@ class Forms extends Component {
       this.flag.isDate = true;
       isChangeState = true;
     }
-    if (form.gender.value === '') {
-      this.isGender = true;
+    if (form.status.value === '') {
+      this.isStatus = true;
       isChangeState = true;
     }
     if (form.img.value === '') {
@@ -45,7 +49,7 @@ class Forms extends Component {
       isChangeState = true;
     } else {
       this.checkSizeImage(form.img.files);
-      isChangeState = true;
+      isChangeState = this.isImgSize;
     }
     if (form.check.checked === false) {
       this.flag.isCheck = true;
@@ -57,8 +61,22 @@ class Forms extends Component {
     } else {
       this.isSumbit = false;
       console.log('фома заполнена');
+      const curFiles = form.img.files;
+      const imgUrl = curFiles ? URL.createObjectURL(curFiles[0]) : ' ';
+      const newCharacter = {
+        name: form.name.value,
+        status: form.status.value,
+        image: imgUrl,
+        species: form.switch.checked ? 'Human' : 'Alien',
+      };
+      /* console.log(' newCharacter', newCharacter);
+      this.giveData(newCharacter);*/
+      this.props.greet(newCharacter);
     }
   }
+  /*giveData(newCharacter: ICharacter) {
+    onchange(newCharacter);
+  } */
   checkSizeImage(curFiles: FileList | null) {
     if (curFiles) {
       const file = curFiles[0];
@@ -75,7 +93,7 @@ class Forms extends Component {
       this.isSumbit = false;
     } else {
       this.isSumbit =
-        this.isGender ||
+        this.isStatus ||
         this.flag.isName ||
         this.flag.isDate ||
         this.flag.isImg ||
@@ -86,7 +104,11 @@ class Forms extends Component {
   }
 
   handleInputChange(e: React.ChangeEvent<HTMLInputElement>, keyFlag: string) {
-    if (!this.isChangeForm) return;
+    if (!this.isChangeForm) {
+      this.isSumbit = false;
+      this.forceUpdate();
+      return;
+    }
     if (keyFlag === 'isCheck') {
       this.flag[keyFlag] = !e.target.checked;
     } else {
@@ -111,8 +133,8 @@ class Forms extends Component {
     this.isFirstActivation();
   }
 
-  handleGanderChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    this.isGender = !(e.target.value !== '');
+  handleStatusChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    this.isStatus = !(e.target.value !== '');
     this.isFirstActivation();
   }
 
@@ -151,19 +173,18 @@ class Forms extends Component {
         </div>
 
         <div className="form_group">
-          <label className="form_label">Gender:</label>
+          <label className="form_label">Status:</label>
           <select
             className="form_input"
-            name="gender"
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => this.handleGanderChange(e)}
+            name="status"
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => this.handleStatusChange(e)}
           >
             <option> </option>
-            <option>Female</option>
-            <option>Male</option>
-            <option>Genderless</option>
+            <option>Alive</option>
+            <option>Dead</option>
             <option>unknown</option>
           </select>
-          {this.isGender && <div style={{ color: 'red' }}>Select gender</div>}
+          {this.isStatus && <div style={{ color: 'red' }}>Select status</div>}
         </div>
         <div className="form_group">
           <label className="form_label">Link to the character{"'"}s image</label>
