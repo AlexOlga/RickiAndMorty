@@ -4,7 +4,7 @@ import './forms.css';
 
 const MAX_IMAGE_SIZE = 1048576;
 interface FormProps {
-  greet: (a: ICharacter) => void;
+  colback: (a: ICharacter) => void;
 }
 
 class Forms extends Component<FormProps> {
@@ -60,7 +60,7 @@ class Forms extends Component<FormProps> {
       this.forceUpdate();
     } else {
       this.isSumbit = false;
-      console.log('фома заполнена');
+      // фома заполнена
       const curFiles = form.img.files;
       const imgUrl = curFiles ? URL.createObjectURL(curFiles[0]) : ' ';
       const newCharacter = {
@@ -69,14 +69,25 @@ class Forms extends Component<FormProps> {
         image: imgUrl,
         species: form.switch.checked ? 'Human' : 'Alien',
       };
-      /* console.log(' newCharacter', newCharacter);
-      this.giveData(newCharacter);*/
-      this.props.greet(newCharacter);
+      this.props.colback(newCharacter);
+      form.reset();
+      this.resetFlags();
     }
   }
-  /*giveData(newCharacter: ICharacter) {
-    onchange(newCharacter);
-  } */
+  resetFlags() {
+    this.flag = {
+      isName: false,
+      thisDate: false,
+      isImg: false,
+      isCheck: false,
+    };
+    this.isStatus = false;
+    this.isChangeForm = false;
+    this.isSumbit = true;
+    this.isImgSize = false;
+    this.forceUpdate();
+  }
+
   checkSizeImage(curFiles: FileList | null) {
     if (curFiles) {
       const file = curFiles[0];
@@ -89,7 +100,6 @@ class Forms extends Component<FormProps> {
   }
   isFirstActivation() {
     if (!this.isChangeForm) {
-      // this.isChangeForm = true;
       this.isSumbit = false;
     } else {
       this.isSumbit =
@@ -117,18 +127,6 @@ class Forms extends Component<FormProps> {
     if (keyFlag === 'isImg') {
       const curFiles = e.target.files;
       this.checkSizeImage(curFiles);
-      /* const file = e.target.files;
-      if (curFiles) {
-        console.log('curFiles', curFiles);
-        const file = curFiles[0];
-        if (file.size > 1048576) {
-          console.log('не грузите слона');
-        } else {
-          console.log(file.size);
-          const url = URL.createObjectURL(file);
-          console.log(url);
-        }
-      }*/
     }
     this.isFirstActivation();
   }

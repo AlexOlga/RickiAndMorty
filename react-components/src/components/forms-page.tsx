@@ -7,19 +7,19 @@ class FormsPage extends Component<Record<string, never>> {
   arrayCard: ICharacter[];
   constructor(props: Record<string, never>) {
     super(props);
-    this.greet = this.greet.bind(this);
+    this.getCardData = this.getCardData.bind(this);
     this.arrayCard = [];
   }
 
-  greet(newCharacter: ICharacter) {
+  getCardData(newCharacter: ICharacter) {
     this.setState({ card: newCharacter });
     this.arrayCard.push(newCharacter);
   }
   render() {
     return (
       <>
-        <Forms greet={this.greet} />
-        <div>
+        <Forms colback={this.getCardData} />
+        <div className="cards-contener">
           {this.arrayCard.map((item: ICharacter, index: number) => (
             <Card {...item} key={`${item.name}-${index}`} />
           ))}
