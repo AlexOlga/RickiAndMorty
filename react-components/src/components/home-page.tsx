@@ -17,6 +17,11 @@ class HomePage extends Component<Record<string, never>, HomePageState> {
     searchQuery: '',
     data: [],
   };
+  constructor(props: Record<string, never>) {
+    super(props);
+    const searchQuery = localStorage.getItem('searchQuery');
+    this.state.searchQuery = searchQuery ? searchQuery : '';
+  }
 
   componentDidMount() {
     const { searchQuery } = this.state;
@@ -45,6 +50,14 @@ class HomePage extends Component<Record<string, never>, HomePageState> {
       this.fetchData(searchQuery);
     }
   };
+  componentWillUnmount() {
+    if (this.state.searchQuery) {
+      localStorage.setItem('searchQuery', this.state.searchQuery);
+    } else {
+      localStorage.removeItem('searchQuery');
+    }
+  }
+
   render() {
     const { searchQuery } = this.state;
     const cardsProps = {
