@@ -3,6 +3,7 @@ import './pages.css';
 import { ICharacter } from '../types';
 import SearchBar from './search-bar/search-bar';
 import Cards from './cards/cards';
+import Image404 from '../img/404.jpg';
 
 type HomePageState = {
   searchQuery: string;
@@ -42,6 +43,7 @@ class HomePage extends Component<Record<string, never>, HomePageState> {
       target: { value: searchQuery },
     } = e;
     this.setState({ searchQuery });
+    if (searchQuery === '') this.fetchData(searchQuery);
   };
 
   getSearch = (e: React.KeyboardEvent): void => {
@@ -63,7 +65,14 @@ class HomePage extends Component<Record<string, never>, HomePageState> {
     const cardsProps = {
       data: this.state.data,
     };
+    const imgStyle = { width: '100%', height: '100%' };
 
+    let searchResult;
+    if (cardsProps.data) {
+      searchResult = <Cards {...cardsProps} />;
+    } else {
+      searchResult = <img src={Image404} style={imgStyle} alt="not found" />;
+    }
     return (
       <div className="wrapper">
         <SearchBar
@@ -71,7 +80,8 @@ class HomePage extends Component<Record<string, never>, HomePageState> {
           onChange={this.handleInputChange}
           value={searchQuery}
         />
-        <Cards {...cardsProps} />
+
+        {searchResult}
       </div>
     );
   }
