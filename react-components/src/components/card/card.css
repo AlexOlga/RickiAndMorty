@@ -3,9 +3,15 @@
     flex-direction: column;
     width: 300px;
     box-shadow: 18px 23px 14px -12px rgba(7, 7, 7, 0.2);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.character_card:hover{
+    box-shadow: 18px 23px 14px -12px rgba(10, 101, 126, 0.5);
+    transform: scale(1.01);
 }
 .character_name{
-    color:  #0a657e;
+    color:  rgb(10, 101, 126);
     text-align: center;
 }
 
