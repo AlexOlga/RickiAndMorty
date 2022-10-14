@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
-import { ICharacter, CardsState } from '../../types';
+import { CardsProps, ICharacter } from '../../types';
 import './cards.css';
 import Card from '../card/card';
 
-class Cards extends Component<ICharacter, CardsState> {
-  state = {
-    data: [],
-  };
-
+class Cards extends Component<CardsProps> {
+  /*
   componentDidMount() {
-    fetch('https://rickandmortyapi.com/api/character')
+    // fetch('https://rickandmortyapi.com/api/character')
+    fetch(`${BASE_PATH}?${SEARCH_PARAM}${this.state.searchQuery}`)
       .then((res) => res.json())
       .then((data) => {
         this.setState({ data: data.results });
       });
   }
-
+*/
   render() {
-    const { data } = this.state;
+    const data = this.props.data;
     return (
       <div>
         <h1 className="title">Characters from the TV show Rick and Morty</h1>

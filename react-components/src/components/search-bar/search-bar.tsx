@@ -3,14 +3,19 @@ import './search-bar.css';
 type SearchState = {
   inputText: string;
 };
+type SearchProps = {
+  value: string;
+  onKeyPress: (e: React.KeyboardEvent) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
-class SearchBar extends Component<Record<string, never>, SearchState> {
-  constructor(props: Record<string, never>) {
+class SearchBar extends Component<SearchProps, SearchState> {
+  constructor(props: SearchProps) {
     super(props);
-    const inputText = localStorage.getItem('inputText');
-    this.state = inputText ? { inputText: inputText } : { inputText: '' };
+    /* const inputText = localStorage.getItem('inputText');
+    this.state = inputText ? { inputText: inputText } : { inputText: '' }; */
   }
-
+  /*
   handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const {
       target: { value: inputText },
@@ -22,7 +27,7 @@ class SearchBar extends Component<Record<string, never>, SearchState> {
     if (e.key === 'Enter') {
       console.log('enter press here! ');
     }
-  };
+  }; 
   componentWillUnmount() {
     if (this.state.inputText) {
       localStorage.setItem('inputText', this.state.inputText);
@@ -30,16 +35,16 @@ class SearchBar extends Component<Record<string, never>, SearchState> {
       localStorage.removeItem('inputText');
     }
   }
-
+*/
   render() {
-    const { inputText } = this.state;
+    const { onChange, onKeyPress, value } = this.props;
     return (
       <>
         <input
           type="search"
-          value={inputText}
-          onChange={this.handleInputChange}
-          onKeyPress={this.handleKeyPress}
+          value={value}
+          onChange={onChange}
+          onKeyPress={onKeyPress}
           placeholder="Search character"
           className="search"
         />

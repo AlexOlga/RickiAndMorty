@@ -6,7 +6,7 @@ interface ICharacter {
   species?: string;
 }
 
-type CardsState = {
+type CardsProps = {
   data: ICharacter[];
 };
 
@@ -19,4 +19,4 @@ type FormFilds = {
   check: HTMLInputElement;
 };
 
-export { ICharacter, CardsState, FormFilds };
+export { ICharacter, CardsProps, FormFilds };
