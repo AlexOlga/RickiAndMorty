@@ -4,7 +4,18 @@ interface ICharacter {
   image?: string;
   status?: string;
   species?: string;
+  location?: TLocation;
+  origin?: TLocation;
 }
+type TLocation = {
+  name: string;
+  url: string;
+};
+/*
+Last known location: location.name
+
+First seen in: origin.name
+*/
 
 type CardsProps = {
   data: ICharacter[];

@@ -15,14 +15,11 @@ class Cards extends Component<CardsProps, CardsState> {
     dataCard: {},
   };
 
-  /* openModal = (dataCard: ICharacter) => {
-    this.setState({ dataCard: dataCard, isOpen: true });
-  }; */
-
-  handleCancel = () => {
-    this.setState({ isOpen: false });
-  };
-
+  handleCancel(e: React.MouseEvent) {
+    const target = e.target as HTMLElement;
+    if (target.classList.value.includes('modal-overlay')) this.setState({ isOpen: false });
+    if (target.classList.value.includes('button-close')) this.setState({ isOpen: false });
+  }
   render() {
     const data = this.props.data;
     return (
@@ -39,7 +36,11 @@ class Cards extends Component<CardsProps, CardsState> {
             />
           ))}
         </div>
-        <Modal isOpen={this.state.isOpen} onCancel={this.handleCancel} data={this.state.dataCard} />
+        <Modal
+          isOpen={this.state.isOpen}
+          onCancel={(e: React.MouseEvent) => this.handleCancel(e)}
+          data={this.state.dataCard}
+        />
       </>
     );
   }

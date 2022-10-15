@@ -13,22 +13,37 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #FFF;
-    min-height: 200px;
-    width: 500px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    width: 800px;   
+    border-radius: 10px;
   }
   .modal-header {
-    min-height: 60px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
     display: flex;
     justify-content: space-between;
-    box-sizing: border-box;
-    align-items: center;
-  }
+    padding: 0px 10px;
+  }   
 
-  .modal-body,
-  .modal-header {
-  padding: 10px 20px;
+.modal-body{
+    display: flex;
+    padding: 0px;
+    background-color: #FFF;
+}
+.button-close{
+    color:  rgb(10, 101, 126);
+    font-weight: bold;
+    background-color:#FFF ;
+    border: 0;
+    margin-top: 10px;
+    height: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.button-close:hover{
+   transform: scale(1.5);
+}
+.scroll{
+    overflow: hidden;
 }
