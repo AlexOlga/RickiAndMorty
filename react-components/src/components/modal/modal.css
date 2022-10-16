@@ -6,7 +6,7 @@
     left: 0;
     right: 0;
   }
-  
+
   .modal-window {
     position: absolute;
     top: 50%;
@@ -16,8 +16,10 @@
     display: flex;
     flex-direction: column;
     width: 800px;   
-    border-radius: 10px;
+    max-width: 100%;
+    border-radius: 10px;    
   }
+
   .modal-header {
     box-sizing: border-box;
     display: flex;
@@ -47,3 +49,22 @@
 .scroll{
     overflow: hidden;
 }
+
+.alert-enter {
+    opacity: 0;
+    transform: scale(0.9);
+    
+  }
+  .alert-enter-active {
+    opacity: 1;
+    transform: rotate(90deg);
+    transition: all 0.5s;
+  }
+  .alert-exit {
+    opacity: 1;
+  }
+  .alert-exit-active {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 0.5s;
+  }

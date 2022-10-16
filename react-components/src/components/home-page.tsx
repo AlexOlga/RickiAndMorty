@@ -4,10 +4,12 @@ import { ICharacter } from '../types';
 import SearchBar from './search-bar/search-bar';
 import Cards from './cards/cards';
 import Image404 from '../img/404.jpg';
+import Loader from './loading-animation/loading-animation';
 
 type HomePageState = {
   searchQuery: string;
   data: ICharacter[];
+  isPending: boolean;
 };
 
 const BASE_PATH = 'https://rickandmortyapi.com/api/character/';
@@ -17,6 +19,7 @@ class HomePage extends Component<Record<string, never>, HomePageState> {
   state = {
     searchQuery: '',
     data: [],
+    isPending: true,
   };
   constructor(props: Record<string, never>) {
     super(props);
@@ -33,7 +36,7 @@ class HomePage extends Component<Record<string, never>, HomePageState> {
     fetch(`${BASE_PATH}?${SEARCH_PARAM}${searchQuery}`)
       .then((res) => res.json())
       .then((data) => {
-        this.setState({ data: data.results });
+        this.setState({ data: data.results, isPending: false });
       })
       .catch((error) => error);
   };
@@ -80,7 +83,7 @@ class HomePage extends Component<Record<string, never>, HomePageState> {
           onChange={this.handleInputChange}
           value={searchQuery}
         />
-
+        {this.state.isPending && <Loader />}
         {searchResult}
       </div>
     );
