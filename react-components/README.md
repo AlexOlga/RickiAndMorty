@@ -1,59 +1,32 @@
-# Week 2
+# Week 3
 
+## React. API
 
-## React. Forms
 
 !! Task should be implemented in the school’s private repository !!
 It should be based on the previous task.
 
 ### What should be done:
 
-1. Create a separate branch for this task from previous branch task.
-2. Create a separate route for forms.
-3. Form should be implemented using uncontrolled components
-4. Add functionality to your app:
-   +  Collect information through a form
-   +  You can collect any type of information, but form has to include at least one control of the following types:
-      + text input
-      + date input
-      + dropdown/select
-      + checkbox
-      + switcher
-      + file upload (image)
+1. Create a separate branch for this task.
+2. Choose an API.
+   There are several recommended APIs. But you may choose any other API that you prefer if it supports search, pagination and sorting.
+   - https://www.flickr.com/services/api/flickr.photos.search.html
+   - https://the-one-api.dev/documentation
+   - https://rickandmortyapi.com/documentation/
+   - https://developers.themoviedb.org/3/getting-started/introduction
+   - https://pipedream.com/apps/swapi
+   - https://github.com/public-apis/public-apis
+     **The API should support searching, pagination and sorting. Although you don’t need it at this stage, but there’s a good chance it might come in handy later.**
+3. Rewrite the search page, and split it into 2 logical parts:
+   - **Search bar.** Enter text -> Press Enter -> Send the request to API with the searching parameters -> the list of results is updating
+   - **The result list of searching**: display the data that the API query returned using Cards.
+4. A customer decided to change requirement. Now every element of the list has to show a small piece of information. After the click on the element we have to show all the  available information about the element in the modal window. The modal window should be closed by clicking on the cross button in the upper right corner or by clicking on a page outside the modal window. When we open a modal window the page should be covered with overlay.
+5. Creat a download indicator ( a component with animation, or at least with the string - ‘Downloading’). You should place this indicator with your own sense of beauty.
 
-   **Example:**
-     ```
-     text input - name, surname, zip-code;
-     date input - birthday, date of delivery;
-     dropdown/select - list of countries, list of states (User can choose only one element from the list)
-     checkbox - "I consent to my personal data" field, list of extra presents (User can choose several items from the list)
-     switcher - male/female, "I want to receive notifications about promo, sales, etc." / "I don’t want to receive notifications about promo, sales, etc."
-     file upload - profile picture
-     ```
-
-   After the Submit button is clicked, all data from the form has to be displayed as Card in the cards list below the form. The confirmation message (with information that the data has been saved) should be displayed, after that form has to be cleared.
-   
-   The quantity of cards should equal the number of form submissions (if the user filled in and submitted the form five times, then five cards have to be displayed under the form).
-   
-   **Form validation**
-   
-   Validation should happen after the **Submit** button was clicked. In case some field was filled incorrectly, then error messages should be displayed under it. The card mustn’t be created until the user fixes all errors.
-   
-   After changing the value of erroneous input, the reset should happen only for this particular field, but not for the others.
-   
-   Submit button should be disabled at initialization (before the first typing), and until the user fixes all errors.
-
-5. Add tests.
-6. All logical parts should be extracted into components.
-   
-   All data must be stored in a local state of the component.
-   
-   Components should not make calls to APIs.
-
-   The usage of Redux or any other solutions for state management is prohibited.
-
-   **The usage of any libraries with components or form libraries is prohibited.**  
-
+All the logical parts must be in separated components.
+**User-friendly interface with the downloading indicator and with notification messages in a case if something goes wrong or some information cannot be found is warmly welcome.**
+6. Add tests. All the api-calls should be mocked in the tests.
 
 ### Score
 
@@ -61,17 +34,13 @@ The task will be checked by the mentor during the first 6 weeks. Create a Pull R
 
 
 1. Tests - **3 points**
-2. Form + Cards - **12 points**
-
+2. App + API - **12 points**
 
 If at least one of the requirements is not completed, then the task is evaluated as **0 points**.
-If case of direct DOM manipulation - **0 points**
 
 ### Repository requirements
 
 - the task should be done in the school's **private repository** [How to work with a private repository](https://docs.rs.school/#/private-repository?id=Как-работать-с-приватным-репозиторием) [RU]
-- create a branch with the name of the task in the school's private repository from the branch of the previous task.
+- create a branch with the name of the  current task in the school's private repository from the branch of the previous task.
 - The commit history should display the development process of the application. [Commit-name-requirements](https://www.conventionalcommits.org/en)
-- after the development is completed, it is necessary to make a Pull Request from the application branch to the branch of the previous task [Requirements for a Pull Request](https://docs.app.rs.school/#/platform/pull-request-review-process). 
-
-**You do not need to merge a Pull Request from the development branch to the branch of the previous task** 
+- after the development is completed, it is necessary to make a Pull Request from the application branch to the branch of the previous task [Requirements for a Pull Request](https://docs.app.rs.school/#/platform/pull-request-review-process). **DO NOT MERGE this Pull Request from the development branch into the previous task branch**
