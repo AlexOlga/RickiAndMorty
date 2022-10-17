@@ -18,7 +18,7 @@ const searchProps1 = {
     if (e.key === 'Enter') console.log('Enter');
   },
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('onChange');
+    console.log(e.target.value);
   },
 };
 
@@ -32,8 +32,8 @@ describe('render search bar', () => {
   it('change value SearchBar ', () => {
     render(<SearchBar {...searchProps1} />);
     const consoleSpy = jest.spyOn(console, 'log');
-    userEvent.type(screen.getByRole('searchbox'), 'react');
-    expect(consoleSpy).toHaveBeenCalledWith('onChange');
+    userEvent.type(screen.getByRole('searchbox'), 'r');
+    expect(consoleSpy).toHaveBeenCalledWith('r');
   });
 
   it('call function on keypress Enter ', () => {
