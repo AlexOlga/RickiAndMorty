@@ -5,20 +5,18 @@ type SearchState = {
 };
 type SearchProps = {
   value: string;
-  onKeyPress: (e: React.KeyboardEvent) => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 class SearchBar extends Component<SearchProps, SearchState> {
   render() {
-    const { onChange, onKeyPress, value } = this.props;
+    const { onChange, value } = this.props;
     return (
       <>
         <input
           type="search"
           value={value}
           onChange={onChange}
-          onKeyPress={onKeyPress}
           placeholder="Search character"
           className="search"
         />
