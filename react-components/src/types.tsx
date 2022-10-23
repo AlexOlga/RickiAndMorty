@@ -11,23 +11,11 @@ type TLocation = {
   name: string;
   url: string;
 };
-/*
-Last known location: location.name
-
-First seen in: origin.name
-*/
 
 type CardsProps = {
   data: ICharacter[];
 };
 
-type FormFilds = {
-  name: HTMLInputElement;
-  date: HTMLInputElement;
-  gender: HTMLSelectElement;
-  img: HTMLInputElement;
-  switch: HTMLInputElement;
-  check: HTMLInputElement;
-};
+type TCallbackRenderCard = (a: ICharacter) => void;
 
-export { ICharacter, CardsProps, FormFilds };
+export { ICharacter, CardsProps, TCallbackRenderCard };

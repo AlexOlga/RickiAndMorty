@@ -18,7 +18,7 @@ class FormsPage extends Component<Record<string, never>> {
   render() {
     return (
       <>
-        <Forms colback={this.getCardData} />
+        <Forms callback={this.getCardData} />
         <div className="cards-contener">
           {this.arrayCard.map((item: ICharacter, index: number) => (
             <Card character={item} key={`${item.name}-${index}`} onClick={() => {}} />
