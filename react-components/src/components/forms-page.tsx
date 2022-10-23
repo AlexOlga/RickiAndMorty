@@ -1,32 +1,25 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { ICharacter } from '../types';
 import Forms from './forms/forms';
 import Card from './card/card';
+const FormsPage = () => {
+  const a: ICharacter[] = [];
+  const [arrayCard, setArrayCard] = useState(a);
 
-class FormsPage extends Component<Record<string, never>> {
-  arrayCard: ICharacter[];
-  constructor(props: Record<string, never>) {
-    super(props);
-    this.getCardData = this.getCardData.bind(this);
-    this.arrayCard = [];
-  }
-
-  getCardData(newCharacter: ICharacter) {
-    this.setState({ card: newCharacter });
-    this.arrayCard.push(newCharacter);
-  }
-  render() {
-    return (
-      <>
-        <Forms callback={this.getCardData} />
-        <div className="cards-contener">
-          {this.arrayCard.map((item: ICharacter, index: number) => (
-            <Card character={item} key={`${item.name}-${index}`} onClick={() => {}} />
-          ))}
-        </div>
-      </>
-    );
-  }
-}
+  const getCardData = (newCharacter: ICharacter) => {
+    const newArray = [...arrayCard, newCharacter];
+    setArrayCard(newArray);
+  };
+  return (
+    <>
+      <Forms callback={getCardData} />
+      <div className="cards-contener">
+        {arrayCard.map((item: ICharacter, index: number) => (
+          <Card character={item} key={`${item.name}-${index}`} onClick={() => {}} />
+        ))}
+      </div>
+    </>
+  );
+};
 
 export default FormsPage;
