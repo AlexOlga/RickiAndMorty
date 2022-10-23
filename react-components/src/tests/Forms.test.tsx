@@ -8,7 +8,7 @@ const myColback = (a: ICharacter) => console.log(a);
 
 describe('form component', () => {
   it('renders form  component', () => {
-    render(<Forms colback={myColback} />);
+    render(<Forms callback={myColback} />);
     expect(screen.getByRole('textbox')).toBeInTheDocument();
     expect(screen.getByRole('combobox')).toBeInTheDocument();
     expect(screen.getAllByRole('option')).toHaveLength(4);
@@ -16,7 +16,7 @@ describe('form component', () => {
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
   it('Submit button should be disabled at initialization (before the first typing)', () => {
-    render(<Forms colback={myColback} />);
+    render(<Forms callback={myColback} />);
     expect(screen.getByRole('button')).toBeInTheDocument();
     expect(screen.getByRole('button')).toBeDisabled();
     userEvent.type(screen.getByRole('textbox'), 'Ivan');
@@ -24,7 +24,7 @@ describe('form component', () => {
   });
 
   it('data input', () => {
-    render(<Forms colback={myColback} />);
+    render(<Forms callback={myColback} />);
     userEvent.type(screen.getByRole('textbox'), 'Ivan');
     expect(screen.getByRole('textbox')).toHaveValue('Ivan');
     userEvent.click(screen.getAllByRole('checkbox')[0]);
