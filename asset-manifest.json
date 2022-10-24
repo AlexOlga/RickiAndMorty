@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/alexolga-REACT2022Q3/static/css/main.cef0116f.css",
-    "main.js": "/alexolga-REACT2022Q3/static/js/main.db93bd28.js",
+    "main.css": "/alexolga-REACT2022Q3/static/css/main.b945b798.css",
+    "main.js": "/alexolga-REACT2022Q3/static/js/main.c198b766.js",
     "static/js/787.e56f57c5.chunk.js": "/alexolga-REACT2022Q3/static/js/787.e56f57c5.chunk.js",
     "static/media/404.jpg": "/alexolga-REACT2022Q3/static/media/404.715ed38f6f51f2cef4f6.jpg",
     "index.html": "/alexolga-REACT2022Q3/index.html",
-    "main.cef0116f.css.map": "/alexolga-REACT2022Q3/static/css/main.cef0116f.css.map",
-    "main.db93bd28.js.map": "/alexolga-REACT2022Q3/static/js/main.db93bd28.js.map",
+    "main.b945b798.css.map": "/alexolga-REACT2022Q3/static/css/main.b945b798.css.map",
+    "main.c198b766.js.map": "/alexolga-REACT2022Q3/static/js/main.c198b766.js.map",
     "787.e56f57c5.chunk.js.map": "/alexolga-REACT2022Q3/static/js/787.e56f57c5.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.cef0116f.css",
-    "static/js/main.db93bd28.js"
+    "static/css/main.b945b798.css",
+    "static/js/main.c198b766.js"
   ]
 }
