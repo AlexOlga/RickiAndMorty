@@ -6,11 +6,7 @@ import Cards from './cards/cards';
 import Image404 from '../img/404.jpg';
 import Loader from './loading-animation/loading-animation';
 
-/* type HomePageState = {
-  searchQuery: string;
-  data: ICharacter[];
-  isPending: boolean;
-}; */
+// create context
 
 const BASE_PATH = 'https://rickandmortyapi.com/api/character/';
 const SEARCH_PARAM = 'name=';

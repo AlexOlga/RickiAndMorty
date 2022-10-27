@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+const defaultState = {
+  search: '',
+  formFilds: { name: '', date: '', status: '', gender: '', img: '', switch: false, check: false },
+};
+const AppContext = createContext(defaultState);
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(

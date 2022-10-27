@@ -1,23 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { ICharacter } from '../../types';
+import { IFormFilds, FormProps } from '../../types';
 import './forms.css';
 
 const MAX_IMAGE_SIZE = 1048576;
-
-interface FormProps {
-  callback: (a: ICharacter) => void;
-}
-
-interface IFormFilds {
-  name?: string;
-  date?: string;
-  status?: string;
-  gender?: string;
-  img?: FileList;
-  switch?: boolean;
-  check?: boolean;
-}
 
 const Forms = (prop: FormProps) => {
   const {
