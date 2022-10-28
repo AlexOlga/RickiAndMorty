@@ -2,7 +2,7 @@ import { createContext, useContext } from 'react';
 import { IContext, TActionReducer, TGlobalContent } from './types';
 const defaultState = {
   search: '',
-  formFilds: { name: '', date: '', status: '', gender: '', switch: false, check: false },
+  formFilds: { name: '', date: '', status: '', switch: false, check: false },
   cardsForm: [],
 };
 

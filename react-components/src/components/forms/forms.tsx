@@ -2,27 +2,75 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { IFormFilds, FormProps } from '../../types';
 import './forms.css';
+import { useAppContext } from '../../reducer';
 
 const MAX_IMAGE_SIZE = 1048576;
-
+/*type FormFilds = {
+  name: HTMLInputElement;
+  date: HTMLInputElement;
+  status: HTMLSelectElement;
+  img: HTMLInputElement;
+  switch: HTMLInputElement;
+  check: HTMLInputElement;
+};
+*/
 const Forms = (prop: FormProps) => {
+  const { state, dispatch } = useAppContext(); // импортируем контекст
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isDirty },
     reset,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      name: state.formFilds?.name,
+      date: state.formFilds?.date,
+      status: state.formFilds?.status,
+      img: state.formFilds?.img,
+      switch: state.formFilds?.switch,
+      check: state.formFilds?.check,
+    }, // значения из стейта
+  });
 
   const [isDisabled, setDisabled] = useState(true); // доступ кнопки
   const [imgError, setImgError] = useState('');
 
-  /*useEffect(() => {
-    setDisabled(!(isDirty && Object.keys(errors).length === 0));
-  }, [Object.keys(errors), isDirty]); */
+  useEffect(() => {
+    return () => {
+      if (dispatch)
+        dispatch({
+          type: 'form-filds',
+          payload: {
+            formFilds: watch(),
+          },
+        });
+    };
+  }, []); // выполнить при размонтировании
+
+  /*
+  useEffect(() => {
+    const form = document.getElementById('form') as HTMLFormElement & FormFilds;
+    if (dispatch)
+      dispatch({
+        type: 'form-filds',
+        payload: {
+          formFilds: {
+            name: form.name.value,
+            date: form.date.value,
+            status: form.status.value,
+            img: form.img.value,
+            switch: form.switch.checked,
+            check: form.check.checked,
+          },
+        },
+      });
+    console.log('state', state.formFilds);
+  });
+*/
   useEffect(() => {
     setDisabled(!(isDirty && Object.keys(errors).length === 0));
-  });
-
+  }); // доступность кнопки
   const onFormSubmit = (data: IFormFilds) => {
     const curFiles = data.img;
     const imgUrl = curFiles ? URL.createObjectURL(curFiles[0]) : ' ';
@@ -34,14 +82,29 @@ const Forms = (prop: FormProps) => {
     };
     prop.callback(newCharacter);
     reset();
+    if (dispatch)
+      dispatch({
+        type: 'form-filds',
+        payload: { formFilds: {} },
+      }); // сброс стейта формы после самбита
   };
 
   return (
-    <form onSubmit={handleSubmit(onFormSubmit)} className="forms">
+    <form onSubmit={handleSubmit(onFormSubmit)} className="forms" id="form">
       <h3 className="form_title">Create your characters</h3>
       <div className="form_group">
         <label className="form_label">Name: </label>
-        <input className="form_input" type="text" {...register('name', { required: true })} />
+        <input
+          className="form_input"
+          type="text"
+          {...register('name', {
+            required: true,
+            /* onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+              console.log('name 1', e.target.value);
+              dispatch({type: 'form-cards', action:})
+            },*/
+          })}
+        />
         {errors.name && <div style={{ color: 'red' }}>Enter character name</div>}
       </div>
 
@@ -68,7 +131,8 @@ const Forms = (prop: FormProps) => {
           type="file"
           accept="image/*"
           {...register('img', {
-            validate: (curFiles: FileList) => {
+            validate: (curFiles: FileList | undefined) => {
+              if (curFiles === undefined) return;
               if (curFiles.length > 0) {
                 const file = curFiles[0];
                 if (file.size < MAX_IMAGE_SIZE) {

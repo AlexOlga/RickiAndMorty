@@ -26,19 +26,26 @@ interface IFormFilds {
   name?: string;
   date?: string;
   status?: string;
-  gender?: string;
+  img?: FileList;
+  switch?: boolean;
+  check?: boolean;
+}
+interface IFormFildsState {
+  name?: string;
+  date?: string;
+  status?: string;
   img?: FileList;
   switch?: boolean;
   check?: boolean;
 }
 interface IContext {
   search?: string;
-  formFilds?: IFormFilds;
+  formFilds?: IFormFildsState;
   cardsForm?: ICharacter[];
 }
 interface IPayload {
   search?: string;
-  formFilds?: IFormFilds;
+  formFilds?: IFormFildsState;
   cardForm?: ICharacter;
 }
 type TActionReducer = {
