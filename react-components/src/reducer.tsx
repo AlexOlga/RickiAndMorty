@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 import { IContext, TActionReducer, TGlobalContent } from './types';
 const defaultState = {
-  search: '',
+  search: [],
   formFilds: { name: '', date: '', status: '', switch: false, check: false },
   cardsForm: [],
 };
@@ -14,25 +14,26 @@ const useAppContext = () => useContext(AppContext);
 const reducer = (state: IContext, action: TActionReducer) => {
   const { type, payload } = action;
   switch (type) {
-    case 'search':
+    case 'search-results':
       return {
-        search: payload.search,
+        searchResults: payload.searchResults,
         formFilds: state.formFilds,
         cardsForm: state.cardsForm,
       };
     case 'form-filds':
       return {
-        search: state.search,
+        searchResults: state.searchResults,
         formFilds: payload.formFilds,
         cardsForm: state.cardsForm,
       };
     case 'form-cards':
       return {
-        search: state.search,
+        searchResults: state.searchResults,
         formFilds: state.formFilds,
         cardsForm:
           state.cardsForm && payload.cardForm ? [...state.cardsForm, payload.cardForm] : [],
       };
+
     default:
       return state;
   }

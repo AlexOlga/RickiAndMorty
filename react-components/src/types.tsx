@@ -39,12 +39,13 @@ interface IFormFildsState {
   check?: boolean;
 }
 interface IContext {
-  search?: string;
+  searchResults?: ICharacter[];
   formFilds?: IFormFildsState;
   cardsForm?: ICharacter[];
 }
+
 interface IPayload {
-  search?: string;
+  searchResults?: ICharacter[];
   formFilds?: IFormFildsState;
   cardForm?: ICharacter;
 }

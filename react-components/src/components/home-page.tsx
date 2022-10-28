@@ -1,29 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import './pages.css';
-// import { ICharacter } from '../types';
 import SearchBar from './search-bar/search-bar';
 import Cards from './cards/cards';
 import Image404 from '../img/404.jpg';
 import Loader from './loading-animation/loading-animation';
-
-// create context
+import { useAppContext } from '../reducer';
 
 const BASE_PATH = 'https://rickandmortyapi.com/api/character/';
 const SEARCH_PARAM = 'name=';
 
 const HomePage = () => {
+  const { state, dispatch } = useAppContext();
+
   const [searchQuery, setSearchQuery] = useState(() => {
     const localStorageItem = localStorage.getItem('searchQuery');
     return localStorageItem ? localStorageItem : '';
   });
-  const [data, setData] = useState([]); // ICharacter[]
-  const [isPending, setIsPending] = useState(true);
+
+  const [isPending, setIsPending] = useState(true); // проверка загрузки
 
   const fetchData = (searchQuery: string) => {
     fetch(`${BASE_PATH}?${SEARCH_PARAM}${searchQuery}`)
       .then((res) => res.json())
       .then((data) => {
-        setData(data.results);
+        if (dispatch)
+          dispatch({ type: 'search-results', payload: { searchResults: data.results } });
         setIsPending(false);
       })
       .catch((error) => error);
@@ -43,7 +44,7 @@ const HomePage = () => {
   };
 
   const cardsProps = {
-    data: data,
+    data: state.searchResults === undefined ? [] : state.searchResults,
   };
   const imgStyle = { width: '100%', height: '100%' };
 
