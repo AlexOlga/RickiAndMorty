@@ -42,12 +42,14 @@ interface IContext {
   searchResults?: ICharacter[];
   formFilds?: IFormFildsState;
   cardsForm?: ICharacter[];
+  typeSorting?: string;
 }
 
 interface IPayload {
   searchResults?: ICharacter[];
   formFilds?: IFormFildsState;
   cardForm?: ICharacter;
+  typeSorting?: string;
 }
 type TActionReducer = {
   type: string;
@@ -56,7 +58,7 @@ type TActionReducer = {
 
 type TGlobalContent = {
   state: IContext;
-  dispatch?: React.Dispatch<TActionReducer>;
+  dispatch: React.Dispatch<TActionReducer>;
 };
 
 export {

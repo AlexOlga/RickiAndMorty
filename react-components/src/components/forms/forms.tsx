@@ -5,15 +5,7 @@ import './forms.css';
 import { useAppContext } from '../../reducer';
 
 const MAX_IMAGE_SIZE = 1048576;
-/*type FormFilds = {
-  name: HTMLInputElement;
-  date: HTMLInputElement;
-  status: HTMLSelectElement;
-  img: HTMLInputElement;
-  switch: HTMLInputElement;
-  check: HTMLInputElement;
-};
-*/
+
 const Forms = (prop: FormProps) => {
   const { state, dispatch } = useAppContext(); // импортируем контекст
   const {
@@ -38,36 +30,16 @@ const Forms = (prop: FormProps) => {
 
   useEffect(() => {
     return () => {
-      if (dispatch)
-        dispatch({
-          type: 'form-filds',
-          payload: {
-            formFilds: watch(),
-          },
-        });
-    };
-  }, []); // выполнить при размонтировании
-
-  /*
-  useEffect(() => {
-    const form = document.getElementById('form') as HTMLFormElement & FormFilds;
-    if (dispatch)
+      //if (dispatch)
       dispatch({
         type: 'form-filds',
         payload: {
-          formFilds: {
-            name: form.name.value,
-            date: form.date.value,
-            status: form.status.value,
-            img: form.img.value,
-            switch: form.switch.checked,
-            check: form.check.checked,
-          },
+          formFilds: watch(),
         },
       });
-    console.log('state', state.formFilds);
-  });
-*/
+    };
+  }, []); // выполнить при размонтировании
+
   useEffect(() => {
     setDisabled(!(isDirty && Object.keys(errors).length === 0));
   }); // доступность кнопки
@@ -82,11 +54,11 @@ const Forms = (prop: FormProps) => {
     };
     prop.callback(newCharacter);
     reset();
-    if (dispatch)
-      dispatch({
-        type: 'form-filds',
-        payload: { formFilds: {} },
-      }); // сброс стейта формы после самбита
+    // if (dispatch)
+    dispatch({
+      type: 'form-filds',
+      payload: { formFilds: {} },
+    }); // сброс стейта формы после самбита
   };
 
   return (
@@ -99,10 +71,6 @@ const Forms = (prop: FormProps) => {
           type="text"
           {...register('name', {
             required: true,
-            /* onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-              console.log('name 1', e.target.value);
-              dispatch({type: 'form-cards', action:})
-            },*/
           })}
         />
         {errors.name && <div style={{ color: 'red' }}>Enter character name</div>}
