@@ -6,8 +6,7 @@ import Image404 from '../img/404.jpg';
 import Loader from './loading-animation/loading-animation';
 import Sort from './sorting/sorting';
 import { useAppContext } from '../reducer';
-import { ICharacter } from 'types';
-import { reverse } from 'dns';
+import { sortAlphabet, firstAlive, firstDead } from '../utils';
 
 const BASE_PATH = 'https://rickandmortyapi.com/api/character/';
 const SEARCH_PARAM = 'name=';
@@ -41,14 +40,7 @@ const HomePage = () => {
     fetchData(searchQuery);
   }, [searchQuery]);
 
-  function sortAlphabet(a: ICharacter, b: ICharacter) {
-    if (a.name && b.name) {
-      if (a.name > b.name) return 1;
-      if (a.name < b.name) return -1;
-    }
-    return 0;
-  }
-  useEffect(() => {
+  const sortingData = () => {
     if (state.searchResults) {
       let arrData = [...state.searchResults];
       switch (state.typeSorting) {
@@ -60,8 +52,20 @@ const HomePage = () => {
           arrData = arrData.sort(sortAlphabet).reverse();
           dispatch({ type: 'search-results', payload: { searchResults: arrData } });
           break;
+        case 'first Alive':
+          arrData = arrData.sort(firstAlive);
+          dispatch({ type: 'search-results', payload: { searchResults: arrData } });
+          break;
+        case 'first Dead':
+          arrData = arrData.sort(firstDead);
+          dispatch({ type: 'search-results', payload: { searchResults: arrData } });
+          break;
       }
     }
+  };
+
+  useEffect(() => {
+    sortingData();
   }, [state.typeSorting]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
