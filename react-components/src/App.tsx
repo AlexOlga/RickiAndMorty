@@ -6,6 +6,7 @@ import About from './components/about';
 import FormsPage from './components/forms-page';
 import ErrorPage from './components/error-page';
 import HomePage from 'components/home-page';
+import CardPage from 'components/cardPage/cardPage';
 import { reducer, defaultState, AppContext } from 'reducer';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <AppContext.Provider value={{ state, dispatch }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/:cardId" element={<CardPage />} />
           <Route path="/about" element={<About />} />
           <Route path="/forms" element={<FormsPage />} />
           <Route path="*" element={<ErrorPage />} />
