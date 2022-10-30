@@ -11,10 +11,18 @@ import { reducer, defaultState, AppContext } from 'reducer';
 
 function App() {
   const [state, dispatch] = useReducer(reducer, defaultState);
+  const title =
+    state.currentPosition && state.searchResults ? (
+      <h2 className="character-title">{state.searchResults[state.currentPosition].name}</h2>
+    ) : (
+      <h3> </h3>
+    );
+
   return (
     <>
       <header className="App-header">
         <Navigation />
+        {state.currentPosition && title}
       </header>
       <AppContext.Provider value={{ state, dispatch }}>
         <Routes>

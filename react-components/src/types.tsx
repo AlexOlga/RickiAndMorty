@@ -43,6 +43,7 @@ interface IContext {
   formFilds?: IFormFildsState;
   cardsForm?: ICharacter[];
   typeSorting?: string;
+  currentPosition?: number | null;
 }
 
 interface IPayload {
@@ -50,6 +51,7 @@ interface IPayload {
   formFilds?: IFormFildsState;
   cardForm?: ICharacter;
   typeSorting?: string;
+  currentPosition?: number | null;
 }
 type TActionReducer = {
   type: string;

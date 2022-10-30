@@ -11,7 +11,6 @@ class CardContent extends React.Component<CardProps> {
     const { character } = this.props;
     return (
       <>
-        <h3 className="character_name">{character.name}</h3>
         <div className="character_page">
           <img className="character_img" src={character.image} alt="Character image" />
           <div className="text-contener">

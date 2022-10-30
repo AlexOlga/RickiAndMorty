@@ -5,6 +5,7 @@ const defaultState = {
   formFilds: { name: '', date: '', status: '', switch: false, check: false },
   cardsForm: [],
   typeSorting: '',
+  currentPosition: null,
 };
 
 const AppContext = createContext<TGlobalContent>({
@@ -22,6 +23,7 @@ const reducer = (state: IContext, action: TActionReducer) => {
         formFilds: state.formFilds,
         cardsForm: state.cardsForm,
         typeSorting: state.typeSorting,
+        currentPosition: state.currentPosition,
       };
     case 'form-filds':
       return {
@@ -29,6 +31,7 @@ const reducer = (state: IContext, action: TActionReducer) => {
         formFilds: payload.formFilds,
         cardsForm: state.cardsForm,
         typeSorting: state.typeSorting,
+        currentPosition: state.currentPosition,
       };
     case 'form-cards':
       return {
@@ -37,6 +40,7 @@ const reducer = (state: IContext, action: TActionReducer) => {
         cardsForm:
           state.cardsForm && payload.cardForm ? [...state.cardsForm, payload.cardForm] : [],
         typeSorting: state.typeSorting,
+        currentPosition: state.currentPosition,
       };
     case 'type-sorting':
       return {
@@ -44,8 +48,16 @@ const reducer = (state: IContext, action: TActionReducer) => {
         formFilds: state.formFilds,
         cardsForm: state.cardsForm,
         typeSorting: payload.typeSorting,
+        currentPosition: state.currentPosition,
       };
-
+    case 'current-position':
+      return {
+        searchResults: state.searchResults,
+        formFilds: state.formFilds,
+        cardsForm: state.cardsForm,
+        typeSorting: state.typeSorting,
+        currentPosition: payload.currentPosition,
+      };
     default:
       return state;
   }

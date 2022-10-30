@@ -5,10 +5,9 @@ import { useAppContext } from '../../reducer';
 import CardContent from './card-content';
 
 const CardPage = () => {
-  const { state } = useAppContext();
+  const { state, dispatch } = useAppContext();
   const { cardId } = useParams();
   const navigate = useNavigate();
-  //let character: ICharacter;
   const DefaulCharacter = {
     name: ' ',
     image: ' ',
@@ -25,20 +24,25 @@ const CardPage = () => {
   };
   const [character, setCharacter] = useState(DefaulCharacter);
   useEffect(() => {
-    if (state.searchResults) {
-      if (state.searchResults?.length >= Number(cardId) - 1) {
-        setCharacter(state.searchResults[Number(cardId) - 1]);
+    if (!state.searchResults) {
+      return navigate('/');
+    } else {
+      const item = state.searchResults.find((item) => item.id === Number(cardId));
+
+      if (item) {
+        dispatch({ type: 'current-position', payload: { currentPosition: Number(cardId) } });
+        setCharacter(item);
       } else {
-        console.log('fetch');
-        fetch(`https://rickandmortyapi.com/api/character/${cardId}`)
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.error) return navigate('/');
-            setCharacter(data);
-          });
+        return navigate('/');
       }
     }
-  }, [cardId, state.searchResults, navigate]);
+  }, [cardId, state.searchResults, navigate, dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: 'current-position', payload: { currentPosition: null } });
+    };
+  }, []);
 
   const searchResult = character ? <CardContent character={character} /> : <p> </p>;
 
