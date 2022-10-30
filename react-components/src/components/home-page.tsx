@@ -26,20 +26,11 @@ const HomePage = () => {
       .then((res) => res.json())
       .then((data) => {
         dispatch({ type: 'search-results', payload: { searchResults: data.results } });
+        sortingData();
         setIsPending(false);
       })
       .catch((error) => error);
   };
-
-  useEffect(() => {
-    if (searchQuery) {
-      localStorage.setItem('searchQuery', searchQuery);
-    } else {
-      localStorage.removeItem('searchQuery');
-    }
-    fetchData(searchQuery);
-  }, [searchQuery]);
-
   const sortingData = () => {
     if (state.searchResults) {
       let arrData = [...state.searchResults];
@@ -63,6 +54,15 @@ const HomePage = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (searchQuery) {
+      localStorage.setItem('searchQuery', searchQuery);
+    } else {
+      localStorage.removeItem('searchQuery');
+    }
+    fetchData(searchQuery);
+  }, [searchQuery]);
 
   useEffect(() => {
     sortingData();

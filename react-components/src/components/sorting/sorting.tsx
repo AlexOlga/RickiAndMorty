@@ -2,7 +2,7 @@ import React from 'react';
 import { useAppContext } from '../../reducer';
 
 const Sort = () => {
-  const { dispatch } = useAppContext();
+  const { state, dispatch } = useAppContext();
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch({ type: 'type-sorting', payload: { typeSorting: e.target.value } });
   };
@@ -10,7 +10,11 @@ const Sort = () => {
   return (
     <div>
       <label>Sort by</label>
-      <select name="sort" onChange={handleStatusChange}>
+      <select
+        name="sort"
+        onChange={handleStatusChange}
+        value={state.typeSorting ? state.typeSorting : ''}
+      >
         <option> </option>
         <option>from A to Z</option>
         <option>from Z to A</option>
