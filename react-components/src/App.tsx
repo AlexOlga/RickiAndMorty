@@ -19,7 +19,7 @@ function App() {
       <AppContext.Provider value={{ state, dispatch }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/:cardId" element={<CardPage />} />
+          <Route path="/cards/:cardId" element={<CardPage />} />
           <Route path="/about" element={<About />} />
           <Route path="/forms" element={<FormsPage />} />
           <Route path="*" element={<ErrorPage />} />

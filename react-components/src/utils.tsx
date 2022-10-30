@@ -22,4 +22,4 @@ function firstDead(a: ICharacter, b: ICharacter) {
   return 0;
 }
 
-export { sortAlphabet, firstAlive, firstDead }
+export { sortAlphabet, firstAlive, firstDead };

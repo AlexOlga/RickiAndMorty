@@ -1,0 +1,10 @@
+.character_page{
+    display: flex;
+    padding: 10px;
+}
+.link-back{
+    margin: 10px 0 0 10px;
+}
+.link-back:hover{
+    color: #0a657e;  
+}

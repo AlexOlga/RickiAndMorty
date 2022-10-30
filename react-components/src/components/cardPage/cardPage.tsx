@@ -1,36 +1,54 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../reducer';
 
-/* type CardProps = {
-  character: ICharacter;
-  onClick: () => void;
-};  */
+import CardContent from './card-content';
+
 const CardPage = () => {
   const { state } = useAppContext();
-  const character = {
-    id: 101,
-    name: 'Ivanov Ivan',
-    image: 'https://rickandmortyapi.com/api/character/avatar/5.jpeg',
-    status: 'status test',
-    species: 'species test',
+  const { cardId } = useParams();
+  const navigate = useNavigate();
+  //let character: ICharacter;
+  const DefaulCharacter = {
+    name: ' ',
+    image: ' ',
+    status: ' ',
+    species: ' ',
+    location: {
+      name: ' ',
+      url: ' ',
+    },
+    origin: {
+      name: ' ',
+      url: ' ',
+    },
   };
-  const { params } = useParams();
-  console.log('params', params);
+  const [character, setCharacter] = useState(DefaulCharacter);
+  useEffect(() => {
+    if (state.searchResults) {
+      if (state.searchResults?.length >= Number(cardId) - 1) {
+        setCharacter(state.searchResults[Number(cardId) - 1]);
+      } else {
+        console.log('fetch');
+        fetch(`https://rickandmortyapi.com/api/character/${cardId}`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.error) return navigate('/');
+            setCharacter(data);
+          });
+      }
+    }
+  }, [cardId, state.searchResults, navigate]);
+
+  const searchResult = character ? <CardContent character={character} /> : <p> </p>;
+
   return (
-    <div className="character_card">
-      <h3 className="character_name">{character.name}</h3>
-      <img className="character_img" src={character.image} alt="Character image" />
-      <div className="text-contener">
-        <p>
-          <span className="character_category">Status: </span> {character.status}
-        </p>
-        <p>
-          <span className="character_category">Species: </span>
-          {character.species}
-        </p>
-      </div>
-    </div>
+    <>
+      {searchResult}
+      <Link to="/" className="link-back">
+        Back
+      </Link>
+    </>
   );
 };
 
