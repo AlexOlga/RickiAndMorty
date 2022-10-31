@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Navigation from './components/navigation/navigation';
@@ -11,12 +11,15 @@ import { reducer, defaultState, AppContext } from 'reducer';
 
 function App() {
   const [state, dispatch] = useReducer(reducer, defaultState);
-  const title =
-    state.currentPosition && state.searchResults ? (
-      <h2 className="character-title">{state.searchResults[state.currentPosition].name}</h2>
-    ) : (
-      <h3> </h3>
-    );
+  let title = <h3> </h3>;
+  useEffect(() => {
+    if (state.currentPosition && state.searchResults) {
+      const character = state.searchResults.find((item) => {
+        item.id === state.currentPosition;
+      });
+      title = character ? <h2 className="character-title">{character.name}</h2> : title;
+    }
+  }, [state.currentPosition]);
 
   return (
     <>

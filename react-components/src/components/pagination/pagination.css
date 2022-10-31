@@ -1,0 +1,23 @@
+.paginationWrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;      
+    padding: 20px 40px;
+    background-color: #fff;
+    font-weight: 700;
+  }
+  
+  .paginationWrapper button {
+    font-weight: 700;
+    background-color:  #0a657e;
+    color:white;
+    padding: 5px 10px;
+    border: 1px solid #e7e7e7;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .paginationWrapper button.active {
+    background-color: white;
+    color: #0a657e;
+  }

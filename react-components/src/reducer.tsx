@@ -6,6 +6,8 @@ const defaultState = {
   cardsForm: [],
   typeSorting: '',
   currentPosition: null,
+  page: 1,
+  lastPage: 1,
 };
 
 const AppContext = createContext<TGlobalContent>({
@@ -19,47 +21,43 @@ const reducer = (state: IContext, action: TActionReducer) => {
   switch (type) {
     case 'search-results':
       return {
+        ...state,
         searchResults: payload.searchResults,
-        formFilds: state.formFilds,
-        cardsForm: state.cardsForm,
-        typeSorting: state.typeSorting,
-        currentPosition: state.currentPosition,
       };
     case 'form-filds':
       return {
-        searchResults: state.searchResults,
+        ...state,
         formFilds: payload.formFilds,
-        cardsForm: state.cardsForm,
-        typeSorting: state.typeSorting,
-        currentPosition: state.currentPosition,
       };
     case 'form-cards':
       return {
-        searchResults: state.searchResults,
-        formFilds: state.formFilds,
+        ...state,
         cardsForm:
           state.cardsForm && payload.cardForm ? [...state.cardsForm, payload.cardForm] : [],
-        typeSorting: state.typeSorting,
-        currentPosition: state.currentPosition,
       };
     case 'type-sorting':
       return {
-        searchResults: state.searchResults,
-        formFilds: state.formFilds,
-        cardsForm: state.cardsForm,
+        ...state,
         typeSorting: payload.typeSorting,
-        currentPosition: state.currentPosition,
       };
     case 'current-position':
       return {
-        searchResults: state.searchResults,
-        formFilds: state.formFilds,
-        cardsForm: state.cardsForm,
-        typeSorting: state.typeSorting,
+        ...state,
         currentPosition: payload.currentPosition,
+      };
+    case 'current-page':
+      return {
+        ...state,
+        page: payload.page,
+      };
+    case 'last-page':
+      return {
+        ...state,
+        lastPage: payload.lastPage,
       };
     default:
       return state;
   }
 };
+
 export { AppContext, reducer, defaultState, useAppContext };
