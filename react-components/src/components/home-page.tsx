@@ -27,16 +27,6 @@ const HomePage = () => {
     fetch(`${BASE_PATH}?${PAGE_PARAM}${pageQuery}${query}`)
       .then((res) => res.json())
       .then((data) => {
-        if (data.error) {
-          dispatch({
-            type: 'search-results',
-            payload: {
-              searchResults: [],
-            },
-          });
-          return;
-        }
-
         dispatch({ type: 'last-page', payload: { lastPage: data.info.pages } });
         dispatch({ type: 'count', payload: { count: data.info.count } });
         dispatch({
