@@ -7,6 +7,8 @@ type PaginationProps = {
 };
 const Pagination = (prop: PaginationProps) => {
   const { state } = useAppContext();
+  const last = state.out === 20 ? state.lastPage : Math.ceil(Number(state.count) / 10);
+  console.log('state.page', state.page);
   return (
     <div className="paginationWrapper">
       {state.page !== 1 && (
@@ -15,9 +17,9 @@ const Pagination = (prop: PaginationProps) => {
         </button>
       )}
       <button onClick={prop.onClick} className={'active'}>
-        {state.page}
+        {`${state.page} / ${last}`}
       </button>
-      {state.page !== state.lastPage && (
+      {state.page !== last && (
         <button onClick={prop.onClick} data-name="next">
           {'>>'}
         </button>

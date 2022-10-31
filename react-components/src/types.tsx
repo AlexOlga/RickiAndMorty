@@ -39,6 +39,7 @@ interface IFormFildsState {
   check?: boolean;
 }
 interface IContext {
+  searchQuery?: string;
   searchResults?: Required<ICharacter>[];
   formFilds?: IFormFildsState;
   cardsForm?: ICharacter[];
@@ -46,9 +47,13 @@ interface IContext {
   page?: number;
   lastPage?: number;
   currentPosition?: number | null; //id open card
+  out?: number;
+  count?: number;
+  cardsToShow?: ICharacter[];
 }
 
 interface IPayload {
+  searchQuery?: string;
   searchResults?: Required<ICharacter>[];
   formFilds?: IFormFildsState;
   cardForm?: ICharacter;
@@ -56,6 +61,9 @@ interface IPayload {
   currentPosition?: number | null;
   page?: number;
   lastPage?: number;
+  out?: number;
+  count?: number;
+  cardsToShow?: ICharacter[];
 }
 type TActionReducer = {
   type: string;

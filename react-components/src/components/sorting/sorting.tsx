@@ -9,7 +9,7 @@ const Sort = () => {
 
   return (
     <div>
-      <label>Sort by</label>
+      <label>Sort by </label>
       <select
         name="sort"
         onChange={handleStatusChange}

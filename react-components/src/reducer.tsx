@@ -8,6 +8,9 @@ const defaultState = {
   currentPosition: null,
   page: 1,
   lastPage: 1,
+  out: 20,
+  cardsToShow: [],
+  searchQuery: '',
 };
 
 const AppContext = createContext<TGlobalContent>({
@@ -54,6 +57,21 @@ const reducer = (state: IContext, action: TActionReducer) => {
       return {
         ...state,
         lastPage: payload.lastPage,
+      };
+    case 'out':
+      return {
+        ...state,
+        out: payload.out,
+      };
+    case 'count':
+      return {
+        ...state,
+        count: payload.count,
+      };
+    case 'search':
+      return {
+        ...state,
+        searchQuery: payload.searchQuery,
       };
     default:
       return state;
