@@ -1,6 +1,6 @@
-# Week 4
+# Week 5
 
-## React. Hooks
+## React. custom app state
 
 
 !! Task should be implemented in the school’s private repository !!
@@ -9,21 +9,31 @@ It should be based on the previous task.
 ### What should be done:
 
 1. Create a separate branch for this task
-2. Retain the functionality and rewrite the main page with the hooks. All tests should be working in the end
-3. Retain the functionality and rewrite the form with React Hook Form. All tests should be working in the end
-
+2. Implement state management solution using useReducer and Context API for search results and form data saving. Now, when switching between pages, all data should be saved.
+3. Add to global state
+    - **switches for sorting** (at least three sorting options). Select a parameter -> send a request to the API with the entered parameter -> the list of search results is updated
+    - **switches for pagination.** It should be possible to select the number of results per page and the number of the page we are currently on, the total number of pages. Select a parameter -> send a request to the API with the entered parameter -> the list of search results is updated
+4. The customer has changed the requirements for the output: 
+    - Now, when you click on each item from the search results, you do not need to open a modal, but open the information on a separate page. 
+    - Also add a "Back" link on this page. 
+    - Display the current position in the header. 
+    - The detail page should take data from the global state.
+    - If there is no data, redirect to the home page.
 ### Score
 
 The task will be checked by the mentor during the first 6 weeks. Create a Pull Request to the branch of the previous task, for mentor's checking (**DO NOT MERGE**).
 
 
-1. Hooks - **15 points**
+1. Custom State Management - **9 points**
+2. Sorting and pagination - **3 points**
+3. Search details in a separate page - **3 points**
 
-If even one of the points is not completed, the score will be 0.
+
+If at least one of the requirements is not completed, then the task is evaluated as **0 points**.
 
 ### Repository requirements
 
-- The task must be done in the school’s private repository ** [how to work with the school’s private repository](https://docs.rs.school/#/private-repository?id=Как-работать-с-приватным-репозиторием)
-- In the school’s private repository create a new branch with the name of the task
-- The commits’ history should display the APP development process. [Commit requirments](https://docs.rs.school/#/git-convention?id=Требования-к-именам-коммитов)
-- At the end of the work you need to do a Pull Request from the APP’s branch to the branch of the previous task [Pull Request Requirements](https://docs.rs.school/#/pull-request-review-process?id=Требования-к-pull-request-pr). **Do not merge the Pull Request from the APP’s branch to the branch of the previous task**
+- the task should be done in the school's **private repository** [How to work with a private repository](https://docs.rs.school/#/private-repository?id=Как-работать-с-приватным-репозиторием) [RU]
+- create a branch with the name of the task in the school's private repository from the branch of the previous task. 
+- The commit history should display the development process of the application. [Commit-name-requirements](https://www.conventionalcommits.org/en)
+- after the development is completed, it is necessary to make a Pull Request from the application branch to the branch of the previous task [Requirements for a Pull Request](https://docs.app.rs.school/#/platform/pull-request-review-process). **You do not need to merge a Pull Request from the development branch to the branch of the previous task**
