@@ -1,27 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { useAppContext } from '../../reducer';
 import './search-bar.css';
-type SearchState = {
-  inputText: string;
-};
+
 type SearchProps = {
-  value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-class SearchBar extends Component<SearchProps, SearchState> {
-  render() {
-    const { onChange, value } = this.props;
-    return (
-      <>
-        <input
-          type="search"
-          value={value}
-          onChange={onChange}
-          placeholder="Search character"
-          className="search"
-        />
-      </>
-    );
-  }
-}
+const SearchBar = (prop: SearchProps) => {
+  const { state } = useAppContext();
+
+  return (
+    <>
+      <input
+        type="search"
+        value={state.searchQuery}
+        onChange={prop.onChange}
+        placeholder="Search character"
+        className="search"
+      />
+    </>
+  );
+};
+
 export default SearchBar;

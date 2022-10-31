@@ -84,11 +84,10 @@ const HomePage = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     dispatch({ type: 'search', payload: { searchQuery: e.target.value } });
-    // setSearchQuery(e.target.value);
+   // console.log('12', state.searchQuery);
   };
-
   const handlePageChange = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    const btn = e.target as HTMLButtonElement; //.getAttribute('data-name');
+    const btn = e.target as HTMLButtonElement; //
     const btnType = btn.getAttribute('data-name');
     switch (btnType) {
       case 'next':
@@ -118,10 +117,7 @@ const HomePage = () => {
       <div className="container">
         <Sort />
         <Select />
-        <SearchBar
-          onChange={handleInputChange}
-          value={state.searchQuery !== undefined ? state.searchQuery : ''}
-        />
+        <SearchBar onChange={handleInputChange} />
       </div>
 
       {isPending && <Loader />}
