@@ -27,6 +27,16 @@ const HomePage = () => {
     fetch(`${BASE_PATH}?${PAGE_PARAM}${pageQuery}${query}`)
       .then((res) => res.json())
       .then((data) => {
+        if (data.error) {
+          dispatch({
+            type: 'search-results',
+            payload: {
+              searchResults: [],
+            },
+          });
+          return;
+        }
+
         dispatch({ type: 'last-page', payload: { lastPage: data.info.pages } });
         dispatch({ type: 'count', payload: { count: data.info.count } });
         dispatch({
@@ -84,7 +94,7 @@ const HomePage = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     dispatch({ type: 'search', payload: { searchQuery: e.target.value } });
-   // console.log('12', state.searchQuery);
+    // console.log('12', state.searchQuery);
   };
   const handlePageChange = (e: React.MouseEvent<HTMLButtonElement>): void => {
     const btn = e.target as HTMLButtonElement; //
