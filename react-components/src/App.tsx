@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Navigation from './components/navigation/navigation';
@@ -11,21 +11,19 @@ import { reducer, defaultState, AppContext } from 'reducer';
 
 function App() {
   const [state, dispatch] = useReducer(reducer, defaultState);
-  let title = <h3> </h3>;
+  const [title, setTitle] = useState(<></>);
   useEffect(() => {
     if (state.currentPosition && state.searchResults) {
-      const character = state.searchResults.find((item) => {
-        item.id === state.currentPosition;
-      });
-      title = character ? <h2 className="character-title">{character.name}</h2> : title;
-    }
+      const character = state.searchResults.find((item) => item.id === state.currentPosition);
+      if (character !== undefined) setTitle(<h2 className="character-title">{character.name}</h2>);
+    } else setTitle(<></>);
   }, [state.currentPosition]);
 
   return (
     <>
       <header className="App-header">
         <Navigation />
-        {state.currentPosition && title}
+        {title}
       </header>
       <AppContext.Provider value={{ state, dispatch }}>
         <Routes>

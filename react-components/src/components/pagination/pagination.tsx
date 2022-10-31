@@ -8,7 +8,6 @@ type PaginationProps = {
 const Pagination = (prop: PaginationProps) => {
   const { state } = useAppContext();
   const last = state.out === 20 ? state.lastPage : Math.ceil(Number(state.count) / 10);
-  console.log('state.page', state.page);
   return (
     <div className="paginationWrapper">
       {state.page !== 1 && (
