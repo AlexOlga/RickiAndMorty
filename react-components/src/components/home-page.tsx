@@ -18,7 +18,7 @@ const HomePage = () => {
   const { state, dispatch } = useAppContext();
   const [isPending, setIsPending] = useState(true); // проверка загрузки
 
-  const fetchData = () => {
+  const fetchData = async () => {
     let pageQuery;
     if (state.out === 20) pageQuery = Number(state.page);
     if (state.out === 10 && Number(state.page) % 2 === 0) pageQuery = Number(state.page) / 2;
@@ -27,20 +27,30 @@ const HomePage = () => {
     fetch(`${BASE_PATH}?${PAGE_PARAM}${pageQuery}${query}`)
       .then((res) => res.json())
       .then((data) => {
-        dispatch({ type: 'last-page', payload: { lastPage: data.info.pages } });
-        dispatch({ type: 'count', payload: { count: data.info.count } });
-        dispatch({
-          type: 'search-results',
-          payload: {
-            searchResults:
-              state.out === 20
-                ? data.results
-                : Number(state.page) % 2 === 0
-                ? data.results.slice(10)
-                : data.results.slice(0, 10),
-          },
-        });
-        sortingData();
+        if (data.error) {
+          dispatch({
+            type: 'search-results',
+            payload: {
+              searchResults: [],
+            },
+          });
+        } else {
+          dispatch({ type: 'last-page', payload: { lastPage: data.info.pages } });
+          dispatch({ type: 'count', payload: { count: data.info.count } });
+          dispatch({
+            type: 'search-results',
+            payload: {
+              searchResults:
+                state.out === 20
+                  ? data.results
+                  : Number(state.page) % 2 === 0
+                  ? data.results.slice(10)
+                  : data.results.slice(0, 10),
+            },
+          });
+          sortingData();
+        }
+
         setIsPending(false);
       })
       .catch((error) => error);
@@ -107,7 +117,12 @@ const HomePage = () => {
 
   let searchResult;
   if (cardsProps.data.length !== 0) {
-    searchResult = <Cards {...cardsProps} />;
+    searchResult = (
+      <>
+        <Cards {...cardsProps} />;
+        <Pagination onClick={handlePageChange} />
+      </>
+    );
   } else {
     searchResult = <img src={Image404} style={imgStyle} alt="not found" />;
   }
@@ -122,7 +137,7 @@ const HomePage = () => {
 
       {isPending && <Loader />}
       {!isPending && searchResult}
-      {!isPending && <Pagination onClick={handlePageChange} />}
+      {/*!isPending && <Pagination onClick={handlePageChange} />*/}
     </div>
   );
 };
