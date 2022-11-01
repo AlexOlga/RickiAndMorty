@@ -24,6 +24,7 @@ const HomePage = () => {
     if (state.out === 10 && Number(state.page) % 2 === 0) pageQuery = Number(state.page) / 2;
     if (state.out === 10 && Number(state.page) % 2 !== 0) pageQuery = (Number(state.page) + 1) / 2;
     const query = state.searchQuery ? `&${SEARCH_PARAM}${state.searchQuery}` : '';
+
     fetch(`${BASE_PATH}?${PAGE_PARAM}${pageQuery}${query}`)
       .then((res) => res.json())
       .then((data) => {
@@ -42,13 +43,12 @@ const HomePage = () => {
             payload: {
               searchResults:
                 state.out === 20
-                  ? data.results
+                  ? [...data.results]
                   : Number(state.page) % 2 === 0
                   ? data.results.slice(10)
                   : data.results.slice(0, 10),
             },
           });
-          sortingData();
         }
 
         setIsPending(false);
@@ -57,22 +57,26 @@ const HomePage = () => {
   };
   const sortingData = () => {
     if (state.searchResults) {
-      let arrData = [...state.searchResults];
+      let arrData = state.searchResults;
       switch (state.typeSorting) {
         case 'from A to Z':
           arrData = arrData.sort(sortAlphabet);
+
           dispatch({ type: 'search-results', payload: { searchResults: arrData } });
           break;
         case 'from Z to A':
           arrData = arrData.sort(sortAlphabet).reverse();
+
           dispatch({ type: 'search-results', payload: { searchResults: arrData } });
           break;
         case 'first Alive':
           arrData = arrData.sort(firstAlive);
+
           dispatch({ type: 'search-results', payload: { searchResults: arrData } });
           break;
         case 'first Dead':
           arrData = arrData.sort(firstDead);
+
           dispatch({ type: 'search-results', payload: { searchResults: arrData } });
           break;
       }
@@ -82,6 +86,7 @@ const HomePage = () => {
   useEffect(() => {
     dispatch({ type: 'current-page', payload: { page: 1 } });
     fetchData();
+    sortingData();
   }, [state.searchQuery]);
 
   useEffect(() => {
@@ -90,21 +95,23 @@ const HomePage = () => {
 
   useEffect(() => {
     fetchData();
+    sortingData();
   }, [state.page, state.out]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     dispatch({ type: 'search', payload: { searchQuery: e.target.value } });
-    // console.log('12', state.searchQuery);
   };
   const handlePageChange = (e: React.MouseEvent<HTMLButtonElement>): void => {
     const btn = e.target as HTMLButtonElement; //
     const btnType = btn.getAttribute('data-name');
+
     switch (btnType) {
       case 'next':
-        const newpage = state.page ? state.page + 1 : 1;
-        dispatch({ type: 'current-page', payload: { page: newpage } });
+        // let newpage = state.page ? state.page + 1 : 1;
+        dispatch({ type: 'current-page', payload: { page: state.page ? state.page + 1 : 1 } });
         break;
       case 'prev':
+        // newpage = state.page ? state.page - 1 : 1;
         dispatch({ type: 'current-page', payload: { page: state.page ? state.page - 1 : 1 } });
         break;
     }
