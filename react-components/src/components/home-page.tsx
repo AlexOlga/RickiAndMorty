@@ -17,7 +17,7 @@ const PAGE_PARAM = 'page=';
 const HomePage = () => {
   const { state, dispatch } = useAppContext();
   const [isPending, setIsPending] = useState(true); // проверка загрузки
-
+  console.log('page', state.page);
   const fetchData = async () => {
     let pageQuery;
     if (state.out === 20) pageQuery = Number(state.page);
@@ -84,12 +84,6 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    dispatch({ type: 'current-page', payload: { page: 1 } });
-    fetchData();
-    sortingData();
-  }, [state.searchQuery]);
-
-  useEffect(() => {
     sortingData();
   }, [state.typeSorting]);
 
@@ -100,6 +94,10 @@ const HomePage = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     dispatch({ type: 'search', payload: { searchQuery: e.target.value } });
+    dispatch({ type: 'current-page', payload: { page: 1 } });
+    console.log('page search', state.page);
+    fetchData();
+    sortingData();
   };
   const handlePageChange = (e: React.MouseEvent<HTMLButtonElement>): void => {
     const btn = e.target as HTMLButtonElement; //
@@ -107,11 +105,9 @@ const HomePage = () => {
 
     switch (btnType) {
       case 'next':
-        // let newpage = state.page ? state.page + 1 : 1;
         dispatch({ type: 'current-page', payload: { page: state.page ? state.page + 1 : 1 } });
         break;
       case 'prev':
-        // newpage = state.page ? state.page - 1 : 1;
         dispatch({ type: 'current-page', payload: { page: state.page ? state.page - 1 : 1 } });
         break;
     }

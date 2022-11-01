@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import Cards from '../components/cards/cards';
+import { AppContext, reducer, defaultState } from 'reducer';
 
 const cardsProps = {
   data: [
@@ -36,7 +36,14 @@ const cardsProps = {
 };
 describe('Cards', () => {
   it('renders  Cards component', () => {
-    render(<Cards {...cardsProps} />);
+    const [state, dispatch] = useReducer(reducer, defaultState);
+    render(
+      <>
+        <AppContext.Provider value={{ state, dispatch }}>
+          <Cards {...cardsProps} />
+        </AppContext.Provider>
+      </>
+    );
     expect(screen.getByText(/Rick and Morty/i)).toBeInTheDocument();
     expect(screen.getAllByAltText(/Character image/i)).toHaveLength(3);
   });
