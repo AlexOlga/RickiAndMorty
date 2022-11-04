@@ -49,7 +49,6 @@ interface IContext {
   currentPosition?: number | null; //id open card
   out?: number;
   count?: number;
-  cardsToShow?: ICharacter[];
 }
 
 interface IPayload {
@@ -63,7 +62,6 @@ interface IPayload {
   lastPage?: number;
   out?: number;
   count?: number;
-  cardsToShow?: ICharacter[];
 }
 type TActionReducer = {
   type: string;

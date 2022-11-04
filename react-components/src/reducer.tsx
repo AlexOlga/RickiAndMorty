@@ -9,7 +9,6 @@ const defaultState = {
   page: 1,
   lastPage: 1,
   out: 20,
-  cardsToShow: [],
   searchQuery: '',
 };
 
