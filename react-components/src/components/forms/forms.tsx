@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { IFormFilds, FormProps } from '../../types';
+import { connect } from 'react-redux';
+import { IFormFilds, TActionReducer, ICharacter } from '../../types';
 import './forms.css';
-import { useAppContext } from '../../reducer';
+//import { useAppContext } from '../../reducer';
+import { getFormFilds } from '../../redux/actions';
 
 const MAX_IMAGE_SIZE = 1048576;
+interface FormProps {
+  callback: (a: ICharacter) => void;
+  getFormFilds: (formFilds: IFormFilds) => TActionReducer;
+  formFilds: IFormFilds;
+}
 
 const Forms = (prop: FormProps) => {
-  const { state, dispatch } = useAppContext(); // импортируем контекст
+  //const { state, dispatch } = useAppContext(); // импортируем контекст
+  //const { formFilds, callback, getFormFilds } = prop;
   const {
     register,
     handleSubmit,
@@ -15,14 +23,7 @@ const Forms = (prop: FormProps) => {
     formState: { errors, isDirty },
     reset,
   } = useForm({
-    defaultValues: {
-      name: state.formFilds?.name,
-      date: state.formFilds?.date,
-      status: state.formFilds?.status,
-      img: state.formFilds?.img,
-      switch: state.formFilds?.switch,
-      check: state.formFilds?.check,
-    }, // значения из стейта
+    defaultValues: prop.formFilds, // значения из стейта
   });
 
   const [isDisabled, setDisabled] = useState(true); // доступ кнопки
@@ -30,13 +31,14 @@ const Forms = (prop: FormProps) => {
 
   useEffect(() => {
     return () => {
-      //if (dispatch)
+      /* //if (dispatch)
       dispatch({
         type: 'form-filds',
         payload: {
           formFilds: watch(),
         },
-      });
+      });*/
+      prop.getFormFilds(watch());
     };
   }, []); // выполнить при размонтировании
 
@@ -55,10 +57,11 @@ const Forms = (prop: FormProps) => {
     prop.callback(newCharacter);
     reset();
     // if (dispatch)
-    dispatch({
+    /* dispatch({
       type: 'form-filds',
       payload: { formFilds: {} },
-    }); // сброс стейта формы после самбита
+    }); */
+    prop.getFormFilds({}); // сброс стейта формы после самбита
   };
 
   return (
@@ -138,4 +141,13 @@ const Forms = (prop: FormProps) => {
   );
 };
 
-export default Forms;
+const mapStateToProps = (state) => {
+  console.log('state', state);
+  return {
+    formFilds: state.formFilds.formFilds,
+  };
+};
+
+export default connect(mapStateToProps, {
+  getFormFilds,
+})(Forms);

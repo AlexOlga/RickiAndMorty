@@ -18,9 +18,9 @@ type CardsProps = {
 
 type TCallbackRenderCard = (a: ICharacter) => void;
 
-interface FormProps {
+/*nterface FormProps {
   callback: (a: ICharacter) => void;
-}
+}*/
 
 interface IFormFilds {
   name?: string;
@@ -79,7 +79,6 @@ export {
   CardsProps,
   TCallbackRenderCard,
   IFormFilds,
-  FormProps,
   IContext,
   TActionReducer,
   TGlobalContent,

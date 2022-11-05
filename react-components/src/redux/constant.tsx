@@ -7,3 +7,4 @@ export const LAST_PAGE = 'last-page';
 export const OUT = 'out';
 export const COUNT = 'count';
 export const SEARCH = 'search';
+export const FORM_FILDS = 'form-filds';
