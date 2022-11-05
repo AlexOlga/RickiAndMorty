@@ -9,21 +9,26 @@ import { useAppContext } from '../reducer';
 import { sortAlphabet, firstAlive, firstDead } from '../utils';
 import Pagination from './pagination/pagination';
 import Select from './select/select';
+import { connect } from 'react-redux';
+import { changeSearchQuery } from '../redux/actions';
+import { TActionReducer } from '../types';
 
 const BASE_PATH = 'https://rickandmortyapi.com/api/character/';
 const SEARCH_PARAM = 'name=';
 const PAGE_PARAM = 'page=';
-
-const HomePage = () => {
+type HomePegeProps = {
+  changeSearchQuery: (a: string) => TActionReducer;
+  searchQuery: string;
+};
+const HomePage = (props: HomePegeProps) => {
   const { state, dispatch } = useAppContext();
   const [isPending, setIsPending] = useState(true); // проверка загрузки
-  console.log('page', state.page);
   const fetchData = async () => {
     let pageQuery;
     if (state.out === 20) pageQuery = Number(state.page);
     if (state.out === 10 && Number(state.page) % 2 === 0) pageQuery = Number(state.page) / 2;
     if (state.out === 10 && Number(state.page) % 2 !== 0) pageQuery = (Number(state.page) + 1) / 2;
-    const query = state.searchQuery ? `&${SEARCH_PARAM}${state.searchQuery}` : '';
+    const query = props.searchQuery ? `&${SEARCH_PARAM}${props.searchQuery}` : '';
 
     fetch(`${BASE_PATH}?${PAGE_PARAM}${pageQuery}${query}`)
       .then((res) => res.json())
@@ -93,7 +98,8 @@ const HomePage = () => {
   }, [state.page, state.out]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    dispatch({ type: 'search', payload: { searchQuery: e.target.value } });
+    // dispatch({ type: 'search', payload: { searchQuery: e.target.value } });
+    props.changeSearchQuery(e.target.value);
     dispatch({ type: 'current-page', payload: { page: 1 } });
     console.log('page search', state.page);
     fetchData();
@@ -144,5 +150,10 @@ const HomePage = () => {
     </div>
   );
 };
-
-export default HomePage;
+const mapStateToProps = (state) => {
+  console.log('state', state);
+  return {
+    searchQuery: state.searchQuery.searchQuery,
+  };
+};
+export default connect(mapStateToProps, { changeSearchQuery })(HomePage);

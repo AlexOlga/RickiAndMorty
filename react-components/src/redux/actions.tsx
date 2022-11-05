@@ -19,3 +19,11 @@ export const getFormFilds = (formFilds: IFormFilds) => {
     },
   };
 };
+export const changeSearchQuery = (searchQuery: string) => {
+  return {
+    type: constants.SEARCH,
+    payload: {
+      searchQuery: searchQuery,
+    },
+  };
+};

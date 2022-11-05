@@ -14,14 +14,11 @@ import { TActionReducer } from '../types';
 }; */
 export const formCardReducer = (state = { cardsForm: [] }, action: TActionReducer) => {
   const { type, payload } = action;
-  console.log('formCardReducer', action.type, action.payload);
-  console.log('state', state);
   switch (type) {
     case constants.FORM_CARDS:
       return {
         ...state,
         cardsForm: [...state.cardsForm, payload.cardForm],
-        // state.cardsForm && payload.cardForm ? [...state.cardsForm, payload.cardForm] : [],
       };
     default:
       return state;
@@ -33,13 +30,24 @@ export const formFildsReducer = (
   action: TActionReducer
 ) => {
   const { type, payload } = action;
-  console.log('formFildsReducer', action.type, action.payload);
-  console.log('state', state);
   switch (type) {
     case constants.FORM_FILDS:
       return {
         ...state,
         formFilds: payload.formFilds,
+      };
+    default:
+      return state;
+  }
+};
+
+export const searchQueryReducer = (state = { searchQuery: '' }, action: TActionReducer) => {
+  const { type, payload } = action;
+  switch (type) {
+    case constants.SEARCH:
+      return {
+        ...state,
+        searchQuery: payload.searchQuery,
       };
     default:
       return state;
