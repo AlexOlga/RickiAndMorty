@@ -1,0 +1,9 @@
+export const FORM_CARDS = 'form-cards';
+export const SEARCH_RESULT = 'search-results';
+export const TYPE_SORTING = 'type-sorting';
+export const CURRENT_POSITION = 'current-position';
+export const CURRENT_PAGE = 'current-page';
+export const LAST_PAGE = 'last-page';
+export const OUT = 'out';
+export const COUNT = 'count';
+export const SEARCH = 'search';

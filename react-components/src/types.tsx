@@ -50,6 +50,7 @@ interface IContext {
   out?: number;
   count?: number;
 }
+type TState = Required<IContext>;
 
 interface IPayload {
   searchQuery?: string;
@@ -82,4 +83,5 @@ export {
   IContext,
   TActionReducer,
   TGlobalContent,
+  TState,
 };
