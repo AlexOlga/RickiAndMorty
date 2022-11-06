@@ -144,7 +144,7 @@ const Forms = (prop: FormProps) => {
 const mapStateToProps = (state) => {
   console.log('state', state);
   return {
-    formFilds: state.formFilds.formFilds,
+    formFilds: state.form.formFilds,
   };
 };
 

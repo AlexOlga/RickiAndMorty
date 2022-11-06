@@ -10,19 +10,23 @@ import { sortAlphabet, firstAlive, firstDead } from '../utils';
 import Pagination from './pagination/pagination';
 import Select from './select/select';
 import { connect } from 'react-redux';
-import { changeSearchQuery } from '../redux/actions';
-import { TActionReducer } from '../types';
+import { changeSearchQuery, getCards } from '../redux/actions';
+import { ICharacter, TActionReducer } from '../types';
 
 const BASE_PATH = 'https://rickandmortyapi.com/api/character/';
 const SEARCH_PARAM = 'name=';
 const PAGE_PARAM = 'page=';
+
 type HomePegeProps = {
   changeSearchQuery: (a: string) => TActionReducer;
   searchQuery: string;
+  searchResults: Required<ICharacter>[];
+  getCards: (a: Required<ICharacter>[]) => TActionReducer;
 };
 const HomePage = (props: HomePegeProps) => {
   const { state, dispatch } = useAppContext();
   const [isPending, setIsPending] = useState(true); // проверка загрузки
+
   const fetchData = async () => {
     let pageQuery;
     if (state.out === 20) pageQuery = Number(state.page);
@@ -34,15 +38,25 @@ const HomePage = (props: HomePegeProps) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
-          dispatch({
+          props.getCards([]);
+          /* dispatch({
             type: 'search-results',
             payload: {
               searchResults: [],
             },
-          });
+          });*/
         } else {
           dispatch({ type: 'last-page', payload: { lastPage: data.info.pages } });
           dispatch({ type: 'count', payload: { count: data.info.count } });
+          const result =
+            state.out === 20
+              ? [...data.results]
+              : Number(state.page) % 2 === 0
+              ? data.results.slice(10)
+              : data.results.slice(0, 10);
+          console.log('result', result);
+          props.getCards(result);
+          /*
           dispatch({
             type: 'search-results',
             payload: {
@@ -53,7 +67,7 @@ const HomePage = (props: HomePegeProps) => {
                   ? data.results.slice(10)
                   : data.results.slice(0, 10),
             },
-          });
+          });*/
         }
 
         setIsPending(false);
@@ -101,7 +115,7 @@ const HomePage = (props: HomePegeProps) => {
     // dispatch({ type: 'search', payload: { searchQuery: e.target.value } });
     props.changeSearchQuery(e.target.value);
     dispatch({ type: 'current-page', payload: { page: 1 } });
-    console.log('page search', state.page);
+    // console.log('page search', state.page);
     fetchData();
     sortingData();
   };
@@ -119,8 +133,11 @@ const HomePage = (props: HomePegeProps) => {
     }
   };
 
-  const cardsProps = {
+  /*const cardsProps = {
     data: state.searchResults === undefined ? [] : state.searchResults,
+  };*/
+  const cardsProps = {
+    data: props.searchResults,
   };
   const imgStyle = { width: '100%', height: '100%' };
 
@@ -146,14 +163,15 @@ const HomePage = (props: HomePegeProps) => {
 
       {isPending && <Loader />}
       {!isPending && searchResult}
-      {/*!isPending && <Pagination onClick={handlePageChange} />*/}
     </div>
   );
 };
 const mapStateToProps = (state) => {
   console.log('state', state);
   return {
-    searchQuery: state.searchQuery.searchQuery,
+    searchQuery: state.search.searchQuery,
+    searchResults: state.search.searchResults,
   };
 };
-export default connect(mapStateToProps, { changeSearchQuery })(HomePage);
+
+export default connect(mapStateToProps, { changeSearchQuery, getCards })(HomePage);

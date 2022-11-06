@@ -1,18 +1,11 @@
 import * as constants from './constant';
 import { TActionReducer } from '../types';
 
-/*const defaultState = {
-  searchResults: [],
-  formFilds: { name: '', date: '', status: '', switch: false, check: false },
+const defaultFormState = {
   cardsForm: [],
-  typeSorting: '',
-  currentPosition: null,
-  page: 1,
-  lastPage: 1,
-  out: 20,
-  searchQuery: '',
-}; */
-export const formCardReducer = (state = { cardsForm: [] }, action: TActionReducer) => {
+  formFilds: { name: '', date: '', status: '', switch: false, check: false },
+};
+export const formReducer = (state = defaultFormState, action: TActionReducer) => {
   const { type, payload } = action;
   switch (type) {
     case constants.FORM_CARDS:
@@ -20,17 +13,6 @@ export const formCardReducer = (state = { cardsForm: [] }, action: TActionReduce
         ...state,
         cardsForm: [...state.cardsForm, payload.cardForm],
       };
-    default:
-      return state;
-  }
-};
-const defaultFormFilds = { name: '', date: '', status: '', switch: false, check: false };
-export const formFildsReducer = (
-  state = { formFilds: defaultFormFilds },
-  action: TActionReducer
-) => {
-  const { type, payload } = action;
-  switch (type) {
     case constants.FORM_FILDS:
       return {
         ...state,
@@ -41,13 +23,23 @@ export const formFildsReducer = (
   }
 };
 
-export const searchQueryReducer = (state = { searchQuery: '' }, action: TActionReducer) => {
+const defaultSearchState = {
+  searchQuery: '',
+  searchResults: [],
+};
+
+export const searchReducer = (state = defaultSearchState, action: TActionReducer) => {
   const { type, payload } = action;
   switch (type) {
     case constants.SEARCH:
       return {
         ...state,
         searchQuery: payload.searchQuery,
+      };
+    case constants.SEARCH_RESULT:
+      return {
+        ...state,
+        searchResults: payload.searchResults ? [...payload.searchResults] : [],
       };
     default:
       return state;

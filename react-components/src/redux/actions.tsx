@@ -2,7 +2,6 @@ import { ICharacter, IFormFilds } from 'types';
 import * as constants from './constant';
 
 export const creatCardForm = (cardForm: ICharacter) => {
-  console.log('creatCardForm', cardForm);
   return {
     type: constants.FORM_CARDS,
     payload: {
@@ -24,6 +23,16 @@ export const changeSearchQuery = (searchQuery: string) => {
     type: constants.SEARCH,
     payload: {
       searchQuery: searchQuery,
+    },
+  };
+};
+
+export const getCards = (cards: Required<ICharacter>[]) => {
+  console.log('search');
+  return {
+    type: constants.SEARCH_RESULT,
+    payload: {
+      searchResults: cards,
     },
   };
 };
