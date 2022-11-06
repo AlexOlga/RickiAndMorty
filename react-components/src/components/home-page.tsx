@@ -10,7 +10,7 @@ import { sortAlphabet, firstAlive, firstDead } from '../utils';
 import Pagination from './pagination/pagination';
 import Select from './select/select';
 import { connect } from 'react-redux';
-import { changeSearchQuery, getCards } from '../redux/actions';
+import { changeSearchQuery, getCards, setLastPageNumber, setCount } from '../redux/actions';
 import { ICharacter, TActionReducer } from '../types';
 
 const BASE_PATH = 'https://rickandmortyapi.com/api/character/';
@@ -21,7 +21,11 @@ type HomePegeProps = {
   changeSearchQuery: (a: string) => TActionReducer;
   searchQuery: string;
   searchResults: Required<ICharacter>[];
+  count: number;
+  lastPage: number;
   getCards: (a: Required<ICharacter>[]) => TActionReducer;
+  setLastPageNumber: (a: number) => TActionReducer;
+  setCount: (a: number) => TActionReducer;
 };
 const HomePage = (props: HomePegeProps) => {
   const { state, dispatch } = useAppContext();
@@ -46,8 +50,10 @@ const HomePage = (props: HomePegeProps) => {
             },
           });*/
         } else {
-          dispatch({ type: 'last-page', payload: { lastPage: data.info.pages } });
-          dispatch({ type: 'count', payload: { count: data.info.count } });
+          /*dispatch({ type: 'last-page', payload: { lastPage: data.info.pages } });*/
+          props.setLastPageNumber(data.info.pages);
+          /*dispatch({ type: 'count', payload: { count: data.info.count } });*/
+          props.setCount(data.info.count);
           const result =
             state.out === 20
               ? [...data.results]
@@ -171,7 +177,14 @@ const mapStateToProps = (state) => {
   return {
     searchQuery: state.search.searchQuery,
     searchResults: state.search.searchResults,
+    lastPage: state.search.lastPage,
+    count: state.search.count,
   };
 };
 
-export default connect(mapStateToProps, { changeSearchQuery, getCards })(HomePage);
+export default connect(mapStateToProps, {
+  changeSearchQuery,
+  getCards,
+  setLastPageNumber,
+  setCount,
+})(HomePage);

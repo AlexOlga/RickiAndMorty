@@ -36,3 +36,59 @@ export const getCards = (cards: Required<ICharacter>[]) => {
     },
   };
 };
+export const setLastPageNumber = (lastPage: number) => {
+  return {
+    type: constants.LAST_PAGE,
+    payload: {
+      lastPage: lastPage,
+    },
+  };
+};
+export const setCount = (count: number) => {
+  return {
+    type: constants.COUNT,
+    payload: {
+      count: count,
+    },
+  };
+};
+export const setTypeSorting = (typeSorting: string) => {
+  return {
+    type: constants.TYPE_SORTING,
+    payload: {
+      count: typeSorting,
+    },
+  };
+};
+/*
+const reducer = (state: IContext, action: TActionReducer) => {
+
+
+    case 'type-sorting':
+      return {
+        ...state,
+        typeSorting: payload.typeSorting,
+      };
+    case 'current-position':
+      return {
+        ...state,
+        currentPosition: payload.currentPosition,
+      };
+    case 'current-page':
+      return {
+        ...state,
+        page: payload.page,
+      };
+
+    case 'out':
+      return {
+        ...state,
+        out: payload.out,
+      };
+
+ 
+  }
+};
+
+
+*/

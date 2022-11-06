@@ -26,6 +26,8 @@ export const formReducer = (state = defaultFormState, action: TActionReducer) =>
 const defaultSearchState = {
   searchQuery: '',
   searchResults: [],
+  count: 0,
+  lastPage: 0,
 };
 
 export const searchReducer = (state = defaultSearchState, action: TActionReducer) => {
@@ -40,6 +42,16 @@ export const searchReducer = (state = defaultSearchState, action: TActionReducer
       return {
         ...state,
         searchResults: payload.searchResults ? [...payload.searchResults] : [],
+      };
+    case constants.COUNT:
+      return {
+        ...state,
+        count: payload.count,
+      };
+    case constants.LAST_PAGE:
+      return {
+        ...state,
+        lastPage: payload.lastPage,
       };
     default:
       return state;
