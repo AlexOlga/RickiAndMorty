@@ -65,12 +65,12 @@ export const searchReducer = (state = defaultSearchState, action: TActionReducer
     case constants.CURRENT_POSITION:
       return {
         ...state,
-        typeSorting: payload.currentPosition,
+        currentPosition: payload.currentPosition,
       };
     case constants.CURRENT_PAGE:
       return {
         ...state,
-        typeSorting: payload.page,
+        page: payload.page,
       };
     case constants.OUT:
       return {
