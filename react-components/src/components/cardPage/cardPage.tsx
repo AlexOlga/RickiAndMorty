@@ -38,7 +38,7 @@ const CardPage = (props: CardPageProps) => {
 
       if (item) {
         //dispatch({ type: 'current-position', payload: { currentPosition: Number(cardId) } });
-        props.setCurrentPosition(null);
+        props.setCurrentPosition(Number(cardId));
         setCharacter(item);
       } else {
         return navigate('/');
@@ -65,7 +65,6 @@ const CardPage = (props: CardPageProps) => {
   );
 };
 const mapStateToProps = (state: TGlobalState) => {
-  // console.log('state', state);
   return {
     searchResults: state.search.searchResults,
     currentPosition: state.search.currentPosition,
