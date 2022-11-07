@@ -5,7 +5,7 @@ import './cards.css';
 import Card from '../card/card';
 
 const Cards = (cardData: CardsProps) => {
-  const data = cardData.data; // передать просто data ?
+  const data = cardData.data;
   return (
     <>
       <h1 className="title">Characters from the TV show Rick and Morty</h1>

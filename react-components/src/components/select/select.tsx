@@ -1,16 +1,24 @@
 import React from 'react';
-import { useAppContext } from '../../reducer';
+import { TActionReducer, TGlobalState } from '../../types';
+import { connect } from 'react-redux';
+import { changeOut } from '../../redux/actions';
 
-const Select = () => {
-  const { state, dispatch } = useAppContext();
+type selectProps = {
+  out: number;
+  changeOut: (out: number) => TActionReducer;
+};
+
+const Select = (props: selectProps) => {
+  const { out, changeOut } = props;
   const handleOutChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch({ type: 'out', payload: { out: Number(e.target.value) } });
+    const newOut = Number(e.target.value);
+    changeOut(newOut);
   };
 
   return (
     <div>
       <label>Output by </label>
-      <select name="out" onChange={handleOutChange} value={state.out ? state.out : ''}>
+      <select name="out" onChange={handleOutChange} value={out ? out : ''}>
         <option> </option>
         <option>10</option>
         <option>20</option>
@@ -18,4 +26,9 @@ const Select = () => {
     </div>
   );
 };
-export default Select;
+const mapStateToProps = (state: TGlobalState) => {
+  return {
+    out: state.search.out,
+  };
+};
+export default connect(mapStateToProps, { changeOut })(Select);

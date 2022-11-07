@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Forms from './forms/forms';
 import Card from './card/card';
-import { ICharacter, TActionReducer } from '../types';
+import { ICharacter, TActionReducer, TGlobalState } from '../types';
 import { creatCardForm } from '../redux/actions';
 
 type FormsPageProp = {
@@ -10,13 +10,14 @@ type FormsPageProp = {
   creatCardForm: (cardForm: ICharacter) => TActionReducer;
 };
 
-const FormsPage = ({ cardsForm, creatCardForm }: FormsPageProp) => {
+const FormsPage = (props: FormsPageProp) => {
+  console.log(props.cardsForm);
   return (
     <>
-      <Forms callback={creatCardForm} />
+      <Forms callback={props.creatCardForm} />
       <div className="cards-contener">
-        {cardsForm
-          ? cardsForm.map((item: ICharacter, index: number) => (
+        {props.cardsForm
+          ? props.cardsForm.map((item: ICharacter, index: number) => (
               <Card character={item} key={`${item.name}-${index}`} onClick={() => {}} />
             ))
           : ''}
@@ -24,7 +25,7 @@ const FormsPage = ({ cardsForm, creatCardForm }: FormsPageProp) => {
     </>
   );
 };
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: TGlobalState) => {
   return {
     cardsForm: state.form.cardsForm,
   };

@@ -18,10 +18,6 @@ type CardsProps = {
 
 type TCallbackRenderCard = (a: ICharacter) => void;
 
-/*nterface FormProps {
-  callback: (a: ICharacter) => void;
-}*/
-
 interface IFormFilds {
   name?: string;
   date?: string;
@@ -73,7 +69,22 @@ type TGlobalContent = {
   state: IContext;
   dispatch: React.Dispatch<TActionReducer>;
 };
-
+type TGlobalState = {
+  form: {
+    formFilds: IFormFildsState;
+    cardsForm: Required<ICharacter>[];
+  };
+  search: {
+    searchQuery: string;
+    searchResults: Required<ICharacter>[];
+    typeSorting: string;
+    currentPosition: number | null;
+    page: number;
+    lastPage: number;
+    out: number;
+    count: number;
+  };
+};
 export {
   ICharacter,
   CardsProps,
@@ -83,4 +94,5 @@ export {
   TActionReducer,
   TGlobalContent,
   TState,
+  TGlobalState,
 };

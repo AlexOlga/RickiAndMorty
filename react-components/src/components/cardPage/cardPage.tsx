@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useAppContext } from '../../reducer';
-
+// import { useAppContext } from '../../reducer';
+import { connect } from 'react-redux';
 import CardContent from './card-content';
+import { setCurrentPosition } from '../../redux/actions';
+import { TActionReducer, ICharacter, TGlobalState } from '../../types';
 
-const CardPage = () => {
-  const { state, dispatch } = useAppContext();
+type CardPageProps = {
+  setCurrentPosition: (a: number | null) => TActionReducer;
+  searchResults: Required<ICharacter>[];
+};
+
+const CardPage = (props: CardPageProps) => {
+  //  const { state, dispatch } = useAppContext();
   const { cardId } = useParams();
   const navigate = useNavigate();
   const DefaulCharacter = {
@@ -24,23 +31,25 @@ const CardPage = () => {
   };
   const [character, setCharacter] = useState(DefaulCharacter);
   useEffect(() => {
-    if (!state.searchResults) {
+    if (!props.searchResults) {
       return navigate('/');
     } else {
-      const item = state.searchResults.find((item) => item.id === Number(cardId));
+      const item = props.searchResults.find((item) => item.id === Number(cardId));
 
       if (item) {
-        dispatch({ type: 'current-position', payload: { currentPosition: Number(cardId) } });
+        //dispatch({ type: 'current-position', payload: { currentPosition: Number(cardId) } });
+        props.setCurrentPosition(null);
         setCharacter(item);
       } else {
         return navigate('/');
       }
     }
-  }, [cardId, state.searchResults, navigate, dispatch]);
+  }, [cardId, props.searchResults, navigate]);
 
   useEffect(() => {
     return () => {
-      dispatch({ type: 'current-position', payload: { currentPosition: null } });
+      // dispatch({ type: 'current-position', payload: { currentPosition: null } });
+      props.setCurrentPosition(null);
     };
   }, []);
 
@@ -55,5 +64,12 @@ const CardPage = () => {
     </>
   );
 };
+const mapStateToProps = (state: TGlobalState) => {
+  // console.log('state', state);
+  return {
+    searchResults: state.search.searchResults,
+    currentPosition: state.search.currentPosition,
+  };
+};
 
-export default CardPage;
+export default connect(mapStateToProps, { setCurrentPosition })(CardPage);

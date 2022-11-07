@@ -1,5 +1,6 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import './App.css';
 import Navigation from './components/navigation/navigation';
 import About from './components/about';
@@ -7,17 +8,22 @@ import FormsPage from './components/forms-page';
 import ErrorPage from './components/error-page';
 import HomePage from 'components/home-page';
 import CardPage from 'components/cardPage/cardPage';
-import { reducer, defaultState, AppContext } from 'reducer';
+import { TGlobalState } from 'types';
+// import { reducer, defaultState, AppContext } from 'reducer';
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, defaultState);
+  // const [state, dispatch] = useReducer(reducer, defaultState);
   const [title, setTitle] = useState(<></>);
+
+  const currentPosition = useSelector((state: TGlobalState) => state.search.currentPosition);
+  const searchResults = useSelector((state: TGlobalState) => state.search.searchResults);
+
   useEffect(() => {
-    if (state.currentPosition && state.searchResults) {
-      const character = state.searchResults.find((item) => item.id === state.currentPosition);
+    if (currentPosition && searchResults) {
+      const character = searchResults.find((item) => item.id === currentPosition);
       if (character !== undefined) setTitle(<h2 className="character-title">{character.name}</h2>);
     } else setTitle(<></>);
-  }, [state.currentPosition]);
+  }, [currentPosition]);
 
   return (
     <>
@@ -25,15 +31,14 @@ function App() {
         <Navigation />
         {title}
       </header>
-      <AppContext.Provider value={{ state, dispatch }}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/cards/:cardId" element={<CardPage />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/forms" element={<FormsPage />} />
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
-      </AppContext.Provider>
+
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/cards/:cardId" element={<CardPage />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/forms" element={<FormsPage />} />
+        <Route path="*" element={<ErrorPage />} />
+      </Routes>
     </>
   );
 }

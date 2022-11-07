@@ -27,7 +27,11 @@ const defaultSearchState = {
   searchQuery: '',
   searchResults: [],
   count: 0,
-  lastPage: 0,
+  typeSorting: '',
+  currentPosition: null,
+  page: 1,
+  lastPage: 1,
+  out: 20,
 };
 
 export const searchReducer = (state = defaultSearchState, action: TActionReducer) => {
@@ -52,6 +56,26 @@ export const searchReducer = (state = defaultSearchState, action: TActionReducer
       return {
         ...state,
         lastPage: payload.lastPage,
+      };
+    case constants.TYPE_SORTING:
+      return {
+        ...state,
+        typeSorting: payload.typeSorting,
+      };
+    case constants.CURRENT_POSITION:
+      return {
+        ...state,
+        typeSorting: payload.currentPosition,
+      };
+    case constants.CURRENT_PAGE:
+      return {
+        ...state,
+        typeSorting: payload.page,
+      };
+    case constants.OUT:
+      return {
+        ...state,
+        out: payload.out,
       };
     default:
       return state;

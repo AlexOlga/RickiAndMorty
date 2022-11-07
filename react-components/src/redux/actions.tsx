@@ -10,7 +10,6 @@ export const creatCardForm = (cardForm: ICharacter) => {
   };
 };
 export const getFormFilds = (formFilds: IFormFilds) => {
-  console.log('getFormFilds');
   return {
     type: constants.FORM_FILDS,
     payload: {
@@ -56,7 +55,31 @@ export const setTypeSorting = (typeSorting: string) => {
   return {
     type: constants.TYPE_SORTING,
     payload: {
-      count: typeSorting,
+      typeSorting: typeSorting,
+    },
+  };
+};
+export const setCurrentPosition = (currentPosition: number | null) => {
+  return {
+    type: constants.CURRENT_POSITION,
+    payload: {
+      currentPosition: currentPosition,
+    },
+  };
+};
+export const setCurrentPage = (page: number) => {
+  return {
+    type: constants.CURRENT_PAGE,
+    payload: {
+      page: page,
+    },
+  };
+};
+export const changeOut = (out: number) => {
+  return {
+    type: constants.OUT,
+    payload: {
+      out: out,
     },
   };
 };

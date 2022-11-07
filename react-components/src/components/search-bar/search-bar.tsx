@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { TGlobalState } from '../../types';
 import './search-bar.css';
 
 type SearchProps = {
@@ -21,8 +22,8 @@ const SearchBar = (prop: SearchProps) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  console.log('state', state);
+const mapStateToProps = (state: TGlobalState) => {
+  // console.log('state', state);
   return {
     searchQuery: state.search.searchQuery,
   };

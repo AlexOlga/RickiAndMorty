@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
-import { IFormFilds, TActionReducer, ICharacter } from '../../types';
+import { IFormFilds, TActionReducer, ICharacter, TGlobalState } from '../../types';
 import './forms.css';
-//import { useAppContext } from '../../reducer';
+
 import { getFormFilds } from '../../redux/actions';
 
 const MAX_IMAGE_SIZE = 1048576;
@@ -14,8 +14,8 @@ interface FormProps {
 }
 
 const Forms = (prop: FormProps) => {
-  //const { state, dispatch } = useAppContext(); // импортируем контекст
-  //const { formFilds, callback, getFormFilds } = prop;
+  const { formFilds, callback, getFormFilds } = prop;
+
   const {
     register,
     handleSubmit,
@@ -23,7 +23,7 @@ const Forms = (prop: FormProps) => {
     formState: { errors, isDirty },
     reset,
   } = useForm({
-    defaultValues: prop.formFilds, // значения из стейта
+    defaultValues: formFilds, // значения из стейта
   });
 
   const [isDisabled, setDisabled] = useState(true); // доступ кнопки
@@ -31,20 +31,14 @@ const Forms = (prop: FormProps) => {
 
   useEffect(() => {
     return () => {
-      /* //if (dispatch)
-      dispatch({
-        type: 'form-filds',
-        payload: {
-          formFilds: watch(),
-        },
-      });*/
-      prop.getFormFilds(watch());
+      getFormFilds(watch());
     };
   }, []); // выполнить при размонтировании
 
   useEffect(() => {
     setDisabled(!(isDirty && Object.keys(errors).length === 0));
   }); // доступность кнопки
+
   const onFormSubmit = (data: IFormFilds) => {
     const curFiles = data.img;
     const imgUrl = curFiles ? URL.createObjectURL(curFiles[0]) : ' ';
@@ -54,14 +48,9 @@ const Forms = (prop: FormProps) => {
       image: imgUrl,
       species: data.switch ? 'Human' : 'Alien',
     };
-    prop.callback(newCharacter);
+    callback(newCharacter);
     reset();
-    // if (dispatch)
-    /* dispatch({
-      type: 'form-filds',
-      payload: { formFilds: {} },
-    }); */
-    prop.getFormFilds({}); // сброс стейта формы после самбита
+    getFormFilds({ name: '', date: '', status: '', switch: false, check: false }); // сброс стейта формы после самбита
   };
 
   return (
@@ -141,8 +130,7 @@ const Forms = (prop: FormProps) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  console.log('state', state);
+const mapStateToProps = (state: TGlobalState) => {
   return {
     formFilds: state.form.formFilds,
   };
