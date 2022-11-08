@@ -6,7 +6,6 @@ import Cards from './cards/cards';
 import Image404 from '../img/404.jpg';
 import Loader from './loading-animation/loading-animation';
 import Sort from './sorting/sorting';
-//import { useAppContext } from '../reducer';
 import { sortAlphabet, firstAlive, firstDead } from '../utils';
 import Pagination from './pagination/pagination';
 import Select from './select/select';
@@ -46,7 +45,6 @@ type HomePegeProps = {
   setCurrentPage: (a: number) => TActionReducer;
 };
 const HomePage = (props: HomePegeProps) => {
-  // const { state, dispatch } = useAppContext();
   const [isPending, setIsPending] = useState(true); // проверка загрузки
 
   const fetchData = async () => {
@@ -55,22 +53,14 @@ const HomePage = (props: HomePegeProps) => {
     if (props.out === 10 && Number(props.page) % 2 === 0) pageQuery = Number(props.page) / 2;
     if (props.out === 10 && Number(props.page) % 2 !== 0) pageQuery = (Number(props.page) + 1) / 2;
     const query = props.searchQuery ? `&${SEARCH_PARAM}${props.searchQuery}` : '';
-
     fetch(`${BASE_PATH}?${PAGE_PARAM}${pageQuery}${query}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
           props.getCards([]);
-          /* dispatch({
-            type: 'search-results',
-            payload: {
-              searchResults: [],
-            },
-          });*/
         } else {
-          /*dispatch({ type: 'last-page', payload: { lastPage: data.info.pages } });*/
           props.setLastPageNumber(data.info.pages);
-          /*dispatch({ type: 'count', payload: { count: data.info.count } });*/
+
           props.setCount(data.info.count);
           const result =
             props.out === 20
@@ -78,50 +68,36 @@ const HomePage = (props: HomePegeProps) => {
               : Number(props.page) % 2 === 0
               ? data.results.slice(10)
               : data.results.slice(0, 10);
-          // console.log('result', result);
-          props.getCards(result);
-          /*
-          dispatch({
-            type: 'search-results',
-            payload: {
-              searchResults:
-                state.out === 20
-                  ? [...data.results]
-                  : Number(state.page) % 2 === 0
-                  ? data.results.slice(10)
-                  : data.results.slice(0, 10),
-            },
-          });*/
-        }
 
+          props.getCards(result);
+        }
         setIsPending(false);
       })
       .catch((error) => error);
   };
   const sortingData = () => {
-    // if (state.searchResults) {
     if (props.searchResults) {
       let arrData = props.searchResults;
       switch (props.typeSorting) {
         case FROM_AZ:
           arrData = arrData.sort(sortAlphabet);
           props.getCards(arrData);
-          //dispatch({ type: 'search-results', payload: { searchResults: arrData } });
+
           break;
         case FROM_ZA:
           arrData = arrData.sort(sortAlphabet).reverse();
           props.getCards(arrData);
-          // dispatch({ type: 'search-results', payload: { searchResults: arrData } });
+
           break;
         case FIRST_ALIVE:
           arrData = arrData.sort(firstAlive);
           props.getCards(arrData);
-          //  dispatch({ type: 'search-results', payload: { searchResults: arrData } });
+
           break;
         case FIRST_DEAD:
           arrData = arrData.sort(firstDead);
           props.getCards(arrData);
-          // dispatch({ type: 'search-results', payload: { searchResults: arrData } });
+
           break;
       }
     }
@@ -129,19 +105,20 @@ const HomePage = (props: HomePegeProps) => {
 
   useEffect(() => {
     sortingData();
-  }, [props.typeSorting]);
+  }, []);
 
   useEffect(() => {
     fetchData();
     sortingData();
   }, [props.page, props.out]);
 
+  useEffect(() => {
+    sortingData();
+  }, [props.typeSorting]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    // dispatch({ type: 'search', payload: { searchQuery: e.target.value } });
     props.changeSearchQuery(e.target.value);
-    //dispatch({ type: 'current-page', payload: { page: 1 } });
     props.setCurrentPage(1);
-    // console.log('page search', state.page);
     fetchData();
     sortingData();
   };
@@ -151,19 +128,14 @@ const HomePage = (props: HomePegeProps) => {
 
     switch (btnType) {
       case 'next':
-        //dispatch({ type: 'current-page', payload: { page: state.page ? state.page + 1 : 1 } });
         props.setCurrentPage(props.page + 1);
         break;
       case 'prev':
-        //dispatch({ type: 'current-page', payload: { page: state.page ? state.page - 1 : 1 } });
         props.setCurrentPage(props.page - 1);
         break;
     }
   };
 
-  /*const cardsProps = {
-    data: state.searchResults === undefined ? [] : state.searchResults,
-  };*/
   const cardsProps = {
     data: props.searchResults,
   };
@@ -195,7 +167,6 @@ const HomePage = (props: HomePegeProps) => {
   );
 };
 const mapStateToProps = (state: TGlobalState) => {
-  // console.log('state', state);
   return {
     searchQuery: state.search.searchQuery,
     searchResults: state.search.searchResults,

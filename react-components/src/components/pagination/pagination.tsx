@@ -1,5 +1,4 @@
 import React from 'react';
-//import { useAppContext } from '../../reducer';
 import { connect } from 'react-redux';
 import { TGlobalState } from '../../types';
 
@@ -13,9 +12,6 @@ type PaginationProps = {
   page: number;
 };
 const Pagination = (props: PaginationProps) => {
-  //const { state } = useAppContext();
-  //  console.log('page pagi', state.page);
-  // const last = state.out === 20 ? state.lastPage : Math.ceil(Number(state.count) / 10);
   const last = props.out === 20 ? props.lastPage : Math.ceil(Number(props.count) / 10);
   return (
     <div className="paginationWrapper">

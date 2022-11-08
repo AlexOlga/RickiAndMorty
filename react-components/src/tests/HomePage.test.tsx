@@ -2,11 +2,23 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import HomePage from '../components/home-page';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { rootReducer } from '../redux/rootReducer';
+
+const initialState = {
+  form: undefined,
+  search: undefined,
+};
 
 describe('HomePage', () => {
   it('renders HomePage  component', () => {
-    render(<HomePage />);
-    expect(screen.getByText(/Rick and Morty/i)).toBeInTheDocument();
+    render(
+      <Provider store={createStore(rootReducer, initialState)}>
+        <HomePage />
+      </Provider>
+    );
+    expect(screen.getByText(/Sort by/i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/Search character/i)).toBeInTheDocument();
   });
   it('fetches ', async () => {
@@ -53,7 +65,11 @@ describe('HomePage', () => {
         })
     );
     await act(async () => {
-      render(<HomePage />);
+      render(
+        <Provider store={createStore(rootReducer, initialState)}>
+          <HomePage />
+        </Provider>
+      );
     });
 
     expect(screen.getByText(/Rick and Morty/i)).toBeInTheDocument();

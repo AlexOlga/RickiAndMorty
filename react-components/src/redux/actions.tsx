@@ -27,7 +27,6 @@ export const changeSearchQuery = (searchQuery: string) => {
 };
 
 export const getCards = (cards: Required<ICharacter>[]) => {
-  console.log('search');
   return {
     type: constants.SEARCH_RESULT,
     payload: {
@@ -83,35 +82,3 @@ export const changeOut = (out: number) => {
     },
   };
 };
-/*
-const reducer = (state: IContext, action: TActionReducer) => {
-
-
-    case 'type-sorting':
-      return {
-        ...state,
-        typeSorting: payload.typeSorting,
-      };
-    case 'current-position':
-      return {
-        ...state,
-        currentPosition: payload.currentPosition,
-      };
-    case 'current-page':
-      return {
-        ...state,
-        page: payload.page,
-      };
-
-    case 'out':
-      return {
-        ...state,
-        out: payload.out,
-      };
-
- 
-  }
-};
-
-
-*/

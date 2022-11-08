@@ -1,14 +1,27 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import userEvent from '@testing-library/user-event';
 import Forms from '../components/forms/forms';
 import { ICharacter } from '../types';
+import { rootReducer } from '../redux/rootReducer';
 
+const initialState = {
+  form: undefined,
+  search: undefined,
+};
 const myColback = (a: ICharacter) => console.log(a);
+beforeEach(() => {
+  render(
+    <Provider store={createStore(rootReducer, initialState)}>
+      <Forms callback={myColback} />
+    </Provider>
+  );
+});
 
 describe('form component', () => {
   it('renders form  component', () => {
-    render(<Forms callback={myColback} />);
     expect(screen.getByRole('textbox')).toBeInTheDocument();
     expect(screen.getByRole('combobox')).toBeInTheDocument();
     expect(screen.getAllByRole('option')).toHaveLength(4);
@@ -16,7 +29,6 @@ describe('form component', () => {
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
   it('Submit button should be disabled at initialization (before the first typing)', () => {
-    render(<Forms callback={myColback} />);
     expect(screen.getByRole('button')).toBeInTheDocument();
     expect(screen.getByRole('button')).toBeDisabled();
     userEvent.type(screen.getByRole('textbox'), 'Ivan');
@@ -24,7 +36,6 @@ describe('form component', () => {
   });
 
   it('data input', () => {
-    render(<Forms callback={myColback} />);
     userEvent.type(screen.getByRole('textbox'), 'Ivan');
     expect(screen.getByRole('textbox')).toHaveValue('Ivan');
     userEvent.click(screen.getAllByRole('checkbox')[0]);

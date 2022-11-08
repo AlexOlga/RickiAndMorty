@@ -23,7 +23,6 @@ const SearchBar = (prop: SearchProps) => {
 };
 
 const mapStateToProps = (state: TGlobalState) => {
-  // console.log('state', state);
   return {
     searchQuery: state.search.searchQuery,
   };

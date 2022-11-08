@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Cards from '../components/cards/cards';
+import { MemoryRouter } from 'react-router-dom';
 
 const cardsProps = {
   data: [
@@ -35,7 +36,11 @@ const cardsProps = {
 };
 describe('Cards', () => {
   it('renders  Cards component', () => {
-    render(<Cards {...cardsProps} />);
+    render(
+      <MemoryRouter>
+        <Cards {...cardsProps} />
+      </MemoryRouter>
+    );
     expect(screen.getByText(/Rick and Morty/i)).toBeInTheDocument();
     expect(screen.getAllByAltText(/Character image/i)).toHaveLength(3);
   });

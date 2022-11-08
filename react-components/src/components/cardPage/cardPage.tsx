@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-// import { useAppContext } from '../../reducer';
 import { connect } from 'react-redux';
 import CardContent from './card-content';
 import { setCurrentPosition } from '../../redux/actions';
@@ -12,7 +11,6 @@ type CardPageProps = {
 };
 
 const CardPage = (props: CardPageProps) => {
-  //  const { state, dispatch } = useAppContext();
   const { cardId } = useParams();
   const navigate = useNavigate();
   const DefaulCharacter = {
@@ -37,18 +35,16 @@ const CardPage = (props: CardPageProps) => {
       const item = props.searchResults.find((item) => item.id === Number(cardId));
 
       if (item) {
-        //dispatch({ type: 'current-position', payload: { currentPosition: Number(cardId) } });
         props.setCurrentPosition(Number(cardId));
         setCharacter(item);
       } else {
         return navigate('/');
       }
     }
-  }, [cardId, props.searchResults, navigate]);
+  }, [cardId, navigate]);
 
   useEffect(() => {
     return () => {
-      // dispatch({ type: 'current-position', payload: { currentPosition: null } });
       props.setCurrentPosition(null);
     };
   }, []);

@@ -85,6 +85,7 @@ type TGlobalState = {
     count: number;
   };
 };
+
 export {
   ICharacter,
   CardsProps,
