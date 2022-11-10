@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
+
 import './index.css';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { createStore, compose } from 'redux';
+// import { createStore, compose } from 'redux';
 import { Provider } from 'react-redux';
-import { rootReducer } from './redux/rootReducer';
+import store from './redux/store';
+/*import { rootReducer } from './redux/rootReducer';
 
 declare global {
   interface Window {
@@ -16,7 +18,8 @@ declare global {
 }
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(rootReducer, composeEnhancers());
+const store = createStore(rootReducer, composeEnhancers());*/
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>

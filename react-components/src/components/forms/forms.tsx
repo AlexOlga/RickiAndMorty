@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { connect } from 'react-redux';
-import { IFormFilds, TActionReducer, ICharacter, TGlobalState } from '../../types';
+import { useAppSelector, useAppDispatch } from '../../redux/hooks';
+import { getFormFilds } from '../../redux/slice';
+import { IFormFilds, ICharacter } from '../../types';
 import './forms.css';
-
-import { getFormFilds } from '../../redux/actions';
 
 const MAX_IMAGE_SIZE = 1048576;
 interface FormProps {
   callback: (a: ICharacter) => void;
-  getFormFilds: (formFilds: IFormFilds) => TActionReducer;
-  formFilds: IFormFilds;
 }
 
 const Forms = (prop: FormProps) => {
-  const { formFilds, callback, getFormFilds } = prop;
+  const { callback } = prop;
+  const formFilds = useAppSelector((state) => state.form.formFilds);
+  const dispatch = useAppDispatch();
+  const getFilds = (formFilds: IFormFilds) => dispatch(getFormFilds(formFilds));
 
   const {
     register,
@@ -31,7 +31,7 @@ const Forms = (prop: FormProps) => {
 
   useEffect(() => {
     return () => {
-      getFormFilds(watch());
+      getFilds(watch());
     };
   }, []); // выполнить при размонтировании
 
@@ -50,7 +50,7 @@ const Forms = (prop: FormProps) => {
     };
     callback(newCharacter);
     reset();
-    getFormFilds({ name: '', date: '', status: '', switch: false, check: false }); // сброс стейта формы после самбита
+    getFilds({ name: '', date: '', status: '', switch: false, check: false }); // сброс стейта формы после самбита
   };
 
   return (
@@ -129,13 +129,4 @@ const Forms = (prop: FormProps) => {
     </form>
   );
 };
-
-const mapStateToProps = (state: TGlobalState) => {
-  return {
-    formFilds: state.form.formFilds,
-  };
-};
-
-export default connect(mapStateToProps, {
-  getFormFilds,
-})(Forms);
+export default Forms;

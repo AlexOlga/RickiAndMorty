@@ -1,23 +1,21 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../redux/hooks';
 import Forms from './forms/forms';
 import Card from './card/card';
-import { ICharacter, TActionReducer, TGlobalState } from '../types';
-import { creatCardForm } from '../redux/actions';
+import { ICharacter } from '../types';
+import { createCardForm } from '../redux/slice';
 
-type FormsPageProp = {
-  cardsForm: ICharacter[];
-  creatCardForm: (cardForm: ICharacter) => TActionReducer;
-};
+const FormsPage = () => {
+  const cardsForm = useAppSelector((state) => state.form.cardsForm);
+  const dispatch = useAppDispatch();
+  const createCard = (cardForm: ICharacter) => dispatch(createCardForm(cardForm));
 
-const FormsPage = (props: FormsPageProp) => {
-  console.log(props.cardsForm);
   return (
     <>
-      <Forms callback={props.creatCardForm} />
+      <Forms callback={createCard} />
       <div className="cards-contener">
-        {props.cardsForm
-          ? props.cardsForm.map((item: ICharacter, index: number) => (
+        {cardsForm
+          ? cardsForm.map((item: ICharacter, index: number) => (
               <Card character={item} key={`${item.name}-${index}`} onClick={() => {}} />
             ))
           : ''}
@@ -25,12 +23,5 @@ const FormsPage = (props: FormsPageProp) => {
     </>
   );
 };
-const mapStateToProps = (state: TGlobalState) => {
-  return {
-    cardsForm: state.form.cardsForm,
-  };
-};
 
-export default connect(mapStateToProps, {
-  creatCardForm,
-})(FormsPage);
+export default FormsPage;
