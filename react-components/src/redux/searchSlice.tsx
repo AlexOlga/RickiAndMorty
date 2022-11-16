@@ -38,40 +38,37 @@ const BASE_PATH = 'https://rickandmortyapi.com/api/character/';
 const SEARCH_PARAM = 'name=';
 const PAGE_PARAM = 'page=';
 
-export const fetchSearchResults = createAsyncThunk<Tresponse, undefined, { rejectValue: string }>(
-  'search/fetchSearchResults',
-  async function (_, { rejectWithValue, getState }) {
-    /*const searchQuery = getState().search.searchQuery;
-    const out = getState().search.out;
-    const page = getState().search.page;
-    const query = searchQuery ? `&${SEARCH_PARAM}${searchQuery}` : '';
-    let pageQuery;
-    if (out === 20) pageQuery = Number(page);
-    if (out === 10 && Number(page) % 2 === 0) pageQuery = Number(page) / 2;
-    if (out === 10 && Number(page) % 2 !== 0) pageQuery = (Number(page) + 1) / 2;
-    fetch(`${BASE_PATH}?${PAGE_PARAM}${pageQuery}${query}`);
-    */
-    const response = await fetch(`${BASE_PATH}`);
-    if (!response.ok) {
-      return rejectWithValue('Server Error!');
-    }
-    const data = await response.json();
+export const fetchSearchResults = createAsyncThunk<
+  Tresponse,
+  undefined,
+  { rejectValue: string; state: { search: searchState } }
+>('search/fetchSearchResults', async function (_, { rejectWithValue, getState }) {
+  const searchQuery = getState().search.searchQuery;
+  const out = getState().search.out;
+  const page = getState().search.page;
+  const query = searchQuery ? `&${SEARCH_PARAM}${searchQuery}` : '';
+  let pageQuery;
+  if (out === 20) pageQuery = Number(page);
+  if (out === 10 && Number(page) % 2 === 0) pageQuery = Number(page) / 2;
+  if (out === 10 && Number(page) % 2 !== 0) pageQuery = (Number(page) + 1) / 2;
 
-    return data;
+  const response = await fetch(`${BASE_PATH}?${PAGE_PARAM}${pageQuery}${query}`);
+  if (!response.ok) {
+    return rejectWithValue('Server Error!');
   }
-);
+  const data = await response.json();
+
+  return data;
+});
 
 const searchSlice = createSlice({
   name: 'search',
   initialState,
   reducers: {
     changeSearchQuery(state, action: PayloadAction<string>) {
-      console.log('state', state);
-      console.log('action', action);
       state.searchQuery = action.payload;
     },
     getCards(state, action: PayloadAction<Required<ICharacter>[]>) {
-      // console.log('будет ассинхронный');
       state.searchResults = action.payload;
     },
     setLastPageNumber(state, action: PayloadAction<number>) {
@@ -109,14 +106,13 @@ const searchSlice = createSlice({
         state.count = action.payload.info.count;
       }
       if (action.payload.results) {
-        /* const result =
+        const result =
           state.out === 20
             ? [...action.payload.results]
             : Number(state.page) % 2 === 0
             ? action.payload.results.slice(10)
             : action.payload.results.slice(0, 10);
-        state.searchResults = result;*/
-        state.searchResults = action.payload.results;
+        state.searchResults = result;
       }
     });
   },
