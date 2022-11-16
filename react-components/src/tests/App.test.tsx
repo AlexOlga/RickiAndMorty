@@ -4,19 +4,13 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import { rootReducer } from '../redux/rootReducer';
-
-const initialState = {
-  form: undefined,
-  search: undefined,
-};
+import store from '../redux/store';
 
 describe('App', () => {
   test('rooter test', () => {
     render(
       <MemoryRouter>
-        <Provider store={createStore(rootReducer, initialState)}>
+        <Provider store={store}>
           <App />
         </Provider>
       </MemoryRouter>
@@ -31,7 +25,7 @@ describe('App', () => {
   test('Error page rooter test', () => {
     render(
       <MemoryRouter initialEntries={['/testpage']}>
-        <Provider store={createStore(rootReducer, initialState)}>
+        <Provider store={store}>
           <App />
         </Provider>
       </MemoryRouter>

@@ -16,7 +16,9 @@ const formSlice = createSlice({
       state.cardsForm.push(action.payload);
     },
     getFormFilds(state, action: PayloadAction<IFormFilds>) {
-      state.formFilds = action.payload;
+      const newFilds = { ...action.payload };
+      newFilds.img = undefined;
+      state.formFilds = newFilds;
     },
   },
 });

@@ -29,7 +29,9 @@ const Forms = (prop: FormProps) => {
 
   useEffect(() => {
     return () => {
-      dispatch(getFormFilds(watch()));
+      const newFilds = { ...watch() };
+      newFilds.img = undefined; // сохранение картинки выдает ошибку
+      dispatch(getFormFilds(newFilds));
     };
   }, []); // выполнить при размонтировании
 
@@ -47,9 +49,10 @@ const Forms = (prop: FormProps) => {
       species: data.switch ? 'Human' : 'Alien',
     };
     callback(newCharacter);
+    dispatch(getFormFilds({}));
     reset();
-    dispatch(getFormFilds({ name: '', date: '', status: '', switch: false, check: false }));
-    // getFormFilds({ name: '', date: '', status: '', switch: false, check: false }); // сброс стейта формы после самбита
+
+    // сброс стейта формы после самбита
   };
 
   return (

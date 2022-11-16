@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from './redux/hooks';
 import './App.css';
 import Navigation from './components/navigation/navigation';
 import About from './components/about';
@@ -8,15 +8,13 @@ import FormsPage from './components/forms-page';
 import ErrorPage from './components/error-page';
 import HomePage from 'components/home-page';
 import CardPage from 'components/cardPage/cardPage';
-import { TGlobalState } from 'types';
-// import { reducer, defaultState, AppContext } from 'reducer';
 
 function App() {
   // const [state, dispatch] = useReducer(reducer, defaultState);
   const [title, setTitle] = useState(<></>);
 
-  const currentPosition = useSelector((state: TGlobalState) => state.search.currentPosition);
-  const searchResults = useSelector((state: TGlobalState) => state.search.searchResults);
+  const currentPosition = useAppSelector((state) => state.search.currentPosition);
+  const searchResults = useAppSelector((state) => state.search.searchResults);
 
   useEffect(() => {
     if (currentPosition && searchResults) {

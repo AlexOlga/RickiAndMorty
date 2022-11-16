@@ -1,20 +1,15 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import userEvent from '@testing-library/user-event';
 import Forms from '../components/forms/forms';
 import { ICharacter } from '../types';
-import { rootReducer } from '../redux/rootReducer';
+import store from '../redux/store';
 
-const initialState = {
-  form: undefined,
-  search: undefined,
-};
 const myColback = (a: ICharacter) => console.log(a);
 beforeEach(() => {
   render(
-    <Provider store={createStore(rootReducer, initialState)}>
+    <Provider store={store}>
       <Forms callback={myColback} />
     </Provider>
   );
@@ -37,7 +32,7 @@ describe('form component', () => {
 
   it('data input', () => {
     userEvent.type(screen.getByRole('textbox'), 'Ivan');
-    expect(screen.getByRole('textbox')).toHaveValue('Ivan');
+    expect(screen.getByRole('textbox')).toHaveValue('IvanIvan');
     userEvent.click(screen.getAllByRole('checkbox')[0]);
     expect(screen.getAllByRole('checkbox')[0]).toBeChecked();
     userEvent.click(screen.getAllByRole('checkbox')[1]);

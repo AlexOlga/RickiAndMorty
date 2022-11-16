@@ -1,10 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import userEvent from '@testing-library/user-event';
 import SearchBar from '../components/search-bar/search-bar';
-import { rootReducer } from '../redux/rootReducer';
+import store from '../redux/store';
 
 const searchProps = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -12,14 +11,9 @@ const searchProps = {
   },
 };
 
-const initialState = {
-  form: undefined,
-  search: undefined,
-};
-
 beforeEach(() => {
   render(
-    <Provider store={createStore(rootReducer, initialState)}>
+    <Provider store={store}>
       <SearchBar {...searchProps} />
     </Provider>
   );
