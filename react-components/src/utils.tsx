@@ -1,4 +1,8 @@
 import { ICharacter } from './types';
+const FROM_AZ = 'from A to Z';
+const FROM_ZA = 'from Z to A';
+const FIRST_ALIVE = 'first Alive';
+const FIRST_DEAD = 'first Dead';
 
 function sortAlphabet(a: ICharacter, b: ICharacter) {
   if (a.name && b.name) {
@@ -22,4 +26,27 @@ function firstDead(a: ICharacter, b: ICharacter) {
   return 0;
 }
 
-export { sortAlphabet, firstAlive, firstDead };
+const sortingData = (arr: Required<ICharacter>[], typeSorting: string) => {
+  console.log('arr', arr);
+  console.log('typeSorting', typeSorting);
+  const arrData = arr;
+  switch (typeSorting) {
+    case FROM_AZ:
+      return arrData.sort(sortAlphabet);
+
+    case FROM_ZA:
+      return arrData.sort(sortAlphabet).reverse();
+
+      break;
+    case FIRST_ALIVE:
+      return arrData.sort(firstAlive);
+
+      break;
+    case FIRST_DEAD:
+      return arrData.sort(firstDead);
+    default:
+      return arrData;
+  }
+};
+
+export { sortAlphabet, firstAlive, firstDead, sortingData };

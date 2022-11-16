@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
-import { IFormFilds, TActionReducer, ICharacter, TGlobalState } from '../../types';
+import { IFormFilds, ICharacter } from '../../types';
 import { getFormFilds } from '../../redux/formSlice';
 import './forms.css';
 

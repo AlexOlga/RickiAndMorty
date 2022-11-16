@@ -6,72 +6,28 @@ import Cards from './cards/cards';
 import Image404 from '../img/404.jpg';
 import Loader from './loading-animation/loading-animation';
 import Sort from './sorting/sorting';
-import { sortAlphabet, firstAlive, firstDead } from '../utils';
 import Pagination from './pagination/pagination';
 import Select from './select/select';
-import {
-  changeSearchQuery,
-  setCurrentPage,
-  getCards,
-  fetchSearchResults,
-} from '../redux/searchSlice';
-
-// type sorting
-const FROM_AZ = 'from A to Z';
-const FROM_ZA = 'from Z to A';
-const FIRST_ALIVE = 'first Alive';
-const FIRST_DEAD = 'first Dead';
+import { changeSearchQuery, setCurrentPage, fetchSearchResults } from '../redux/searchSlice';
 
 const HomePage = () => {
-  const { out, page, typeSorting, searchResults, searchQuery, loading, error } =
-    useAppSelector((state) => state.search);
+  const { out, page, typeSorting, searchResults, loading, error, searchQuery } = useAppSelector(
+    (state) => state.search
+  );
   const dispatch = useAppDispatch();
-  /* const sortingData = () => {
-    if (searchResults) {
-      let arrData = searchResults;
-      switch (typeSorting) {
-        case FROM_AZ:
-          arrData = arrData.sort(sortAlphabet);
-          dispatch(getCards(arrData));
-          // props.getCards(arrData);
-          break;
-        case FROM_ZA:
-          arrData = arrData.sort(sortAlphabet).reverse();
-          dispatch(getCards(arrData));
-          // props.getCards(arrData);
-          break;
-        case FIRST_ALIVE:
-          arrData = arrData.sort(firstAlive);
-          dispatch(getCards(arrData));
-          //  props.getCards(arrData);
-          break;
-        case FIRST_DEAD:
-          arrData = arrData.sort(firstDead);
-          dispatch(getCards(arrData));
-          // props.getCards(arrData);
-          break;
-      }
-    }
-  };
-*/
+
   useEffect(() => {
     dispatch(fetchSearchResults());
   }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchSearchResults());
-    // sortingData();
-  }, [page, out]);
+  }, [page, out, searchQuery, typeSorting]);
 
-  /* useEffect(() => {
-    sortingData();
-  }, [typeSorting]);
-*/
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     dispatch(changeSearchQuery(e.target.value));
     dispatch(setCurrentPage(1));
     dispatch(fetchSearchResults);
-    // sortingData();
   };
   const handlePageChange = (e: React.MouseEvent<HTMLButtonElement>): void => {
     const btn = e.target as HTMLButtonElement; //
@@ -114,7 +70,7 @@ const HomePage = () => {
 
       {loading && <Loader />}
       {error && <h2>{error}</h2>}
-      {loading && searchResult}
+      {!loading && searchResult}
     </div>
   );
 };

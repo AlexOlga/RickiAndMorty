@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { ICharacter } from 'types';
+import { sortingData } from '../utils';
 type searchState = {
   searchQuery: string;
   searchResults: Required<ICharacter>[];
@@ -68,9 +69,6 @@ const searchSlice = createSlice({
     changeSearchQuery(state, action: PayloadAction<string>) {
       state.searchQuery = action.payload;
     },
-    getCards(state, action: PayloadAction<Required<ICharacter>[]>) {
-      state.searchResults = action.payload;
-    },
     setLastPageNumber(state, action: PayloadAction<number>) {
       state.lastPage = action.payload;
     },
@@ -112,14 +110,13 @@ const searchSlice = createSlice({
             : Number(state.page) % 2 === 0
             ? action.payload.results.slice(10)
             : action.payload.results.slice(0, 10);
-        state.searchResults = result;
+        state.searchResults = sortingData(result, state.typeSorting);
       }
     });
   },
 });
 export const {
   changeSearchQuery,
-  getCards,
   setLastPageNumber,
   setCount,
   setTypeSorting,
