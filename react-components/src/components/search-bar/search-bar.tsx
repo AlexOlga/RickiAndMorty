@@ -1,19 +1,18 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { TGlobalState } from '../../types';
+import { useAppSelector } from '../../redux/hooks';
 import './search-bar.css';
 
 type SearchProps = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  searchQuery: string;
 };
 
 const SearchBar = (prop: SearchProps) => {
+  const searchQuery = useAppSelector((state) => state.search.searchQuery);
   return (
     <>
       <input
         type="search"
-        value={prop.searchQuery}
+        value={searchQuery}
         onChange={prop.onChange}
         placeholder="Search character"
         className="search"
@@ -22,10 +21,4 @@ const SearchBar = (prop: SearchProps) => {
   );
 };
 
-const mapStateToProps = (state: TGlobalState) => {
-  return {
-    searchQuery: state.search.searchQuery,
-  };
-};
-
-export default connect(mapStateToProps, null)(SearchBar);
+export default SearchBar;

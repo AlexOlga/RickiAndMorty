@@ -13,13 +13,9 @@ const formSlice = createSlice({
   initialState,
   reducers: {
     createCardForm(state, action: PayloadAction<ICharacter>) {
-      console.log('state', state);
-      console.log('action', action);
       state.cardsForm.push(action.payload);
     },
     getFormFilds(state, action: PayloadAction<IFormFilds>) {
-      console.log('state', state);
-      console.log('action', action);
       state.formFilds = action.payload;
     },
   },

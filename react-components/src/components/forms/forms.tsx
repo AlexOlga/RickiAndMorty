@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
-import { getFormFilds } from '../../redux/slice';
+import { getFormFilds } from '../../redux/formSlice';
 import { IFormFilds, ICharacter } from '../../types';
 import './forms.css';
 
@@ -50,7 +50,8 @@ const Forms = (prop: FormProps) => {
     };
     callback(newCharacter);
     reset();
-    getFilds({ name: '', date: '', status: '', switch: false, check: false }); // сброс стейта формы после самбита
+    // getFilds({ name: '', date: '', status: '', switch: false, check: false }); // сброс стейта формы после самбита
+    dispatch(getFormFilds({ name: '', date: '', status: '', switch: false, check: false }));
   };
 
   return (

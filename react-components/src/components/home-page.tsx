@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import './pages.css';
 import SearchBar from './search-bar/search-bar';
 import Cards from './cards/cards';
@@ -11,13 +11,10 @@ import Pagination from './pagination/pagination';
 import Select from './select/select';
 import {
   changeSearchQuery,
-  getCards,
-  setLastPageNumber,
-  setCount,
-  setTypeSorting,
   setCurrentPage,
-} from '../redux/actions';
-import { ICharacter, TActionReducer, TGlobalState } from '../types';
+  getCards,
+  fetchSearchResults,
+} from '../redux/searchSlice';
 
 const BASE_PATH = 'https://rickandmortyapi.com/api/character/';
 const SEARCH_PARAM = 'name=';
@@ -29,98 +26,91 @@ const FROM_ZA = 'from Z to A';
 const FIRST_ALIVE = 'first Alive';
 const FIRST_DEAD = 'first Dead';
 
-type HomePegeProps = {
-  changeSearchQuery: (a: string) => TActionReducer;
-  searchQuery: string;
-  searchResults: Required<ICharacter>[];
-  count: number;
-  lastPage: number;
-  typeSorting: string;
-  page: number;
-  out: number;
-  getCards: (a: Required<ICharacter>[]) => TActionReducer;
-  setLastPageNumber: (a: number) => TActionReducer;
-  setCount: (a: number) => TActionReducer;
-  setTypeSorting: (a: string) => TActionReducer;
-  setCurrentPage: (a: number) => TActionReducer;
-};
-const HomePage = (props: HomePegeProps) => {
-  const [isPending, setIsPending] = useState(true); // проверка загрузки
+const HomePage = () => {
+  //const [isPending, setIsPending] = useState(true); // проверка загрузки
+  const { out, count, page, lastPage, typeSorting, searchResults, searchQuery, loading, error } =
+    useAppSelector((state) => state.search);
+  const dispatch = useAppDispatch();
 
-  const fetchData = async () => {
+  /* const fetchData = async () => {
     let pageQuery;
-    if (props.out === 20) pageQuery = Number(props.page);
-    if (props.out === 10 && Number(props.page) % 2 === 0) pageQuery = Number(props.page) / 2;
-    if (props.out === 10 && Number(props.page) % 2 !== 0) pageQuery = (Number(props.page) + 1) / 2;
-    const query = props.searchQuery ? `&${SEARCH_PARAM}${props.searchQuery}` : '';
+    if (out === 20) pageQuery = Number(page);
+    if (out === 10 && Number(page) % 2 === 0) pageQuery = Number(page) / 2;
+    if (out === 10 && Number(page) % 2 !== 0) pageQuery = (Number(page) + 1) / 2;
+    const query = searchQuery ? `&${SEARCH_PARAM}${searchQuery}` : '';
     fetch(`${BASE_PATH}?${PAGE_PARAM}${pageQuery}${query}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
-          props.getCards([]);
+          dispatch(getCards([]));
         } else {
-          props.setLastPageNumber(data.info.pages);
-
-          props.setCount(data.info.count);
+          dispatch(setLastPageNumber(data.info.pages));
+          dispatch(setCount(data.info.count));
           const result =
-            props.out === 20
+            out === 20
               ? [...data.results]
-              : Number(props.page) % 2 === 0
+              : Number(page) % 2 === 0
               ? data.results.slice(10)
               : data.results.slice(0, 10);
-
-          props.getCards(result);
+          dispatch(getCards(result));
+          //props.getCards(result);
         }
         setIsPending(false);
       })
       .catch((error) => error);
   };
-  const sortingData = () => {
-    if (props.searchResults) {
-      let arrData = props.searchResults;
-      switch (props.typeSorting) {
+  */
+  /* const sortingData = () => {
+    if (searchResults) {
+      let arrData = searchResults;
+      switch (typeSorting) {
         case FROM_AZ:
           arrData = arrData.sort(sortAlphabet);
-          props.getCards(arrData);
-
+          dispatch(getCards(arrData));
+          // props.getCards(arrData);
           break;
         case FROM_ZA:
           arrData = arrData.sort(sortAlphabet).reverse();
-          props.getCards(arrData);
-
+          dispatch(getCards(arrData));
+          // props.getCards(arrData);
           break;
         case FIRST_ALIVE:
           arrData = arrData.sort(firstAlive);
-          props.getCards(arrData);
-
+          dispatch(getCards(arrData));
+          //  props.getCards(arrData);
           break;
         case FIRST_DEAD:
           arrData = arrData.sort(firstDead);
-          props.getCards(arrData);
-
+          dispatch(getCards(arrData));
+          // props.getCards(arrData);
           break;
       }
     }
   };
+*/
+  useEffect(() => {
+    dispatch(fetchSearchResults());
+    // sortingData();
+  }, [dispatch]);
 
   useEffect(() => {
-    sortingData();
-  }, []);
+    //fetchData();
+    dispatch(fetchSearchResults());
+    // sortingData();
+  }, [page, out]);
 
-  useEffect(() => {
-    fetchData();
+  /* useEffect(() => {
     sortingData();
-  }, [props.page, props.out]);
-
-  useEffect(() => {
-    sortingData();
-  }, [props.typeSorting]);
-
+  }, [typeSorting]);
+*/
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    props.changeSearchQuery(e.target.value);
-    props.setCurrentPage(1);
-    fetchData();
-    sortingData();
+    dispatch(changeSearchQuery(e.target.value));
+    dispatch(setCurrentPage(1));
+    //props.changeSearchQuery(e.target.value);
+    //props.setCurrentPage(1);
+    dispatch(fetchSearchResults);
+    //fetchData();
+    // sortingData();
   };
   const handlePageChange = (e: React.MouseEvent<HTMLButtonElement>): void => {
     const btn = e.target as HTMLButtonElement; //
@@ -128,16 +118,18 @@ const HomePage = (props: HomePegeProps) => {
 
     switch (btnType) {
       case 'next':
-        props.setCurrentPage(props.page + 1);
+        dispatch(setCurrentPage(page + 1));
+        // props.setCurrentPage(props.page + 1);
         break;
       case 'prev':
-        props.setCurrentPage(props.page - 1);
+        dispatch(setCurrentPage(page - 1));
+        //props.setCurrentPage(props.page - 1);
         break;
     }
   };
 
   const cardsProps = {
-    data: props.searchResults,
+    data: searchResults,
   };
   const imgStyle = { width: '100%', height: '100%' };
 
@@ -161,28 +153,10 @@ const HomePage = (props: HomePegeProps) => {
         <SearchBar onChange={handleInputChange} />
       </div>
 
-      {isPending && <Loader />}
-      {!isPending && searchResult}
+      {status === 'loading' && <Loader />}
+      {error && <h2>{error}</h2>}
+      {status !== 'loading' && searchResult}
     </div>
   );
 };
-const mapStateToProps = (state: TGlobalState) => {
-  return {
-    searchQuery: state.search.searchQuery,
-    searchResults: state.search.searchResults,
-    lastPage: state.search.lastPage,
-    count: state.search.count,
-    typeSorting: state.search.typeSorting,
-    page: state.search.page,
-    out: state.search.out,
-  };
-};
-
-export default connect(mapStateToProps, {
-  changeSearchQuery,
-  getCards,
-  setLastPageNumber,
-  setCount,
-  setTypeSorting,
-  setCurrentPage,
-})(HomePage);
+export default HomePage;

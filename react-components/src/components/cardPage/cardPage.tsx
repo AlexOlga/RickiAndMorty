@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import CardContent from './card-content';
-import { setCurrentPosition } from '../../redux/actions';
-import { TActionReducer, ICharacter, TGlobalState } from '../../types';
+import { setCurrentPosition } from '../../redux/searchSlice';
 
-type CardPageProps = {
-  setCurrentPosition: (a: number | null) => TActionReducer;
-  searchResults: Required<ICharacter>[];
-};
-
-const CardPage = (props: CardPageProps) => {
+const CardPage = () => {
   const { cardId } = useParams();
   const navigate = useNavigate();
+  const searchResults = useAppSelector((state) => state.search.searchResults);
+  const dispatch = useAppDispatch();
+
   const DefaulCharacter = {
     name: ' ',
     image: ' ',
@@ -28,14 +25,15 @@ const CardPage = (props: CardPageProps) => {
     },
   };
   const [character, setCharacter] = useState(DefaulCharacter);
+
   useEffect(() => {
-    if (!props.searchResults) {
+    if (!searchResults) {
       return navigate('/');
     } else {
-      const item = props.searchResults.find((item) => item.id === Number(cardId));
+      const item = searchResults.find((item) => item.id === Number(cardId));
 
       if (item) {
-        props.setCurrentPosition(Number(cardId));
+        dispatch(setCurrentPosition(Number(cardId)));
         setCharacter(item);
       } else {
         return navigate('/');
@@ -45,7 +43,7 @@ const CardPage = (props: CardPageProps) => {
 
   useEffect(() => {
     return () => {
-      props.setCurrentPosition(null);
+      dispatch(setCurrentPosition(null));
     };
   }, []);
 
@@ -60,11 +58,5 @@ const CardPage = (props: CardPageProps) => {
     </>
   );
 };
-const mapStateToProps = (state: TGlobalState) => {
-  return {
-    searchResults: state.search.searchResults,
-    currentPosition: state.search.currentPosition,
-  };
-};
 
-export default connect(mapStateToProps, { setCurrentPosition })(CardPage);
+export default CardPage;

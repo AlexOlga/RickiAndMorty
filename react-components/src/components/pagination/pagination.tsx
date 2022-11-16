@@ -1,29 +1,27 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { TGlobalState } from '../../types';
-
+import { useAppSelector } from '../../redux/hooks';
 import './pagination.css';
 
 type PaginationProps = {
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  lastPage: number;
-  count: number;
-  out: number;
-  page: number;
 };
 const Pagination = (props: PaginationProps) => {
-  const last = props.out === 20 ? props.lastPage : Math.ceil(Number(props.count) / 10);
+  const out = useAppSelector((state) => state.search.out);
+  const count = useAppSelector((state) => state.search.count);
+  const page = useAppSelector((state) => state.search.page);
+  const lastPage = useAppSelector((state) => state.search.lastPage);
+  const last = out === 20 ? lastPage : Math.ceil(Number(count) / 10);
   return (
     <div className="paginationWrapper">
-      {props.page !== 1 && (
+      {page !== 1 && (
         <button onClick={props.onClick} data-name="prev">
           {'<<'}
         </button>
       )}
       <button onClick={props.onClick} className={'active'}>
-        {`${props.page} / ${last}`}
+        {`${page} / ${last}`}
       </button>
-      {props.page !== last && (
+      {page !== last && (
         <button onClick={props.onClick} data-name="next">
           {'>>'}
         </button>
@@ -31,12 +29,5 @@ const Pagination = (props: PaginationProps) => {
     </div>
   );
 };
-const mapStateToProps = (state: TGlobalState) => {
-  return {
-    lastPage: state.search.lastPage,
-    count: state.search.count,
-    out: state.search.out,
-    page: state.search.page,
-  };
-};
-export default connect(mapStateToProps, null)(Pagination);
+
+export default Pagination;

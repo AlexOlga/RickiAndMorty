@@ -1,15 +1,13 @@
 import React from 'react';
 //import { useAppContext } from '../../reducer';
-import { useDispatch, useSelector } from 'react-redux';
-import { setTypeSorting } from '../../redux/actions';
-import { TGlobalState } from '../../types';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { setTypeSorting } from '../../redux/searchSlice';
 
 const Sort = () => {
   //const { state, dispatch } = useAppContext();
-  const dispatch = useDispatch();
-  const typeSorting = useSelector((state: TGlobalState) => state.search.typeSorting);
+  const dispatch = useAppDispatch();
+  const typeSorting = useAppSelector((state) => state.search.typeSorting);
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    //dispatch({ type: 'type-sorting', payload: { typeSorting: e.target.value } });
     dispatch(setTypeSorting(e.target.value));
   };
 

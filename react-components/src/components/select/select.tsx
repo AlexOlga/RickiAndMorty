@@ -1,18 +1,13 @@
 import React from 'react';
-import { TActionReducer, TGlobalState } from '../../types';
-import { connect } from 'react-redux';
-import { changeOut } from '../../redux/actions';
+import { useAppSelector, useAppDispatch } from '../../redux/hooks';
+import { changeOut } from '../../redux/searchSlice';
 
-type selectProps = {
-  out: number;
-  changeOut: (out: number) => TActionReducer;
-};
-
-const Select = (props: selectProps) => {
-  const { out, changeOut } = props;
+const Select = () => {
+  const out = useAppSelector((state) => state.search.out);
+  const dispatch = useAppDispatch();
   const handleOutChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newOut = Number(e.target.value);
-    changeOut(newOut);
+    dispatch(changeOut(newOut));
   };
 
   return (
@@ -26,9 +21,5 @@ const Select = (props: selectProps) => {
     </div>
   );
 };
-const mapStateToProps = (state: TGlobalState) => {
-  return {
-    out: state.search.out,
-  };
-};
-export default connect(mapStateToProps, { changeOut })(Select);
+
+export default Select;

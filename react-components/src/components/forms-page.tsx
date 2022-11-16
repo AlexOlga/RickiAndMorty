@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from '../redux/hooks';
 import Forms from './forms/forms';
 import Card from './card/card';
 import { ICharacter } from '../types';
-import { createCardForm } from '../redux/slice';
+import { createCardForm } from '../redux/formSlice';
 
 const FormsPage = () => {
   const cardsForm = useAppSelector((state) => state.form.cardsForm);
