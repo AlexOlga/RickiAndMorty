@@ -1,9 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
 import HomePage from '../components/home-page';
 import { Provider } from 'react-redux';
 import store from '../redux/store';
+import * as reduxHooks from '../redux/hooks';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('HomePage', () => {
   it('renders HomePage  component', () => {
@@ -15,13 +16,15 @@ describe('HomePage', () => {
     expect(screen.getByText(/Sort by/i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/Search character/i)).toBeInTheDocument();
   });
-  it('fetches ', async () => {
+  it('fetches ', () => {
     const fakeRes = {
-      info: {
-        pages: 1,
-        count: 3,
-      },
-      results: [
+      out: 20,
+      page: 1,
+      typeSorting: '',
+      loading: false,
+      error: null,
+      searchQuery: '',
+      searchResults: [
         {
           id: 101,
           name: 'Test 1',
@@ -51,25 +54,14 @@ describe('HomePage', () => {
         },
       ],
     };
-    global.fetch = jest.fn().mockImplementationOnce(
-      () =>
-        new Promise((resolve) => {
-          resolve({
-            json: () =>
-              new Promise((resolve) => {
-                resolve(fakeRes);
-              }),
-          });
-        })
-    );
-    await act(async () => {
-      render(
-        <Provider store={store}>
+    jest.spyOn(reduxHooks, 'useAppSelector').mockReturnValue(fakeRes);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
           <HomePage />
-        </Provider>
-      );
-    });
-
+        </MemoryRouter>
+      </Provider>
+    );
     expect(screen.getByText(/Rick and Morty/i)).toBeInTheDocument();
     expect(screen.getAllByAltText(/Character image/i)).toHaveLength(3);
   });
