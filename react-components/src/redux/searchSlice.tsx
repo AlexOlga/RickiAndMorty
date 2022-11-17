@@ -43,7 +43,7 @@ export const fetchSearchResults = createAsyncThunk<
   Tresponse,
   undefined,
   { rejectValue: string; state: { search: searchState } }
->('search/fetchSearchResults', async function (_, { rejectWithValue, getState }) {
+>('search/fetchSearchResults', async function (_, { getState }) {
   const searchQuery = getState().search.searchQuery;
   const out = getState().search.out;
   const page = getState().search.page;
@@ -54,9 +54,6 @@ export const fetchSearchResults = createAsyncThunk<
   if (out === 10 && Number(page) % 2 !== 0) pageQuery = (Number(page) + 1) / 2;
 
   const response = await fetch(`${BASE_PATH}?${PAGE_PARAM}${pageQuery}${query}`);
-  if (!response.ok) {
-    return rejectWithValue('Server Error!');
-  }
   const data = await response.json();
 
   return data;
@@ -94,7 +91,6 @@ const searchSlice = createSlice({
       state.error = null;
     });
     bilder.addCase(fetchSearchResults.fulfilled, (state, action) => {
-      console.log('action.payload', action.payload);
       state.loading = false;
       if (action.payload.error) {
         state.searchResults = [];
@@ -112,6 +108,10 @@ const searchSlice = createSlice({
             : action.payload.results.slice(0, 10);
         state.searchResults = sortingData(result, state.typeSorting);
       }
+    });
+    bilder.addCase(fetchSearchResults.rejected, (state) => {
+      state.loading = false;
+      state.searchResults = [];
     });
   },
 });

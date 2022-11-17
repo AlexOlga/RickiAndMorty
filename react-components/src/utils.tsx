@@ -27,8 +27,6 @@ function firstDead(a: ICharacter, b: ICharacter) {
 }
 
 const sortingData = (arr: Required<ICharacter>[], typeSorting: string) => {
-  console.log('arr', arr);
-  console.log('typeSorting', typeSorting);
   const arrData = arr;
   switch (typeSorting) {
     case FROM_AZ:
