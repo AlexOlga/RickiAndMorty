@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/RickiAndMorty/static/css/main.a9d415eb.css",
-    "main.js": "/RickiAndMorty/static/js/main.14d33f81.js",
+    "main.js": "/RickiAndMorty/static/js/main.31346db6.js",
     "static/js/787.e56f57c5.chunk.js": "/RickiAndMorty/static/js/787.e56f57c5.chunk.js",
     "static/media/404.jpg": "/RickiAndMorty/static/media/404.715ed38f6f51f2cef4f6.jpg",
     "index.html": "/RickiAndMorty/index.html",
     "main.a9d415eb.css.map": "/RickiAndMorty/static/css/main.a9d415eb.css.map",
-    "main.14d33f81.js.map": "/RickiAndMorty/static/js/main.14d33f81.js.map",
+    "main.31346db6.js.map": "/RickiAndMorty/static/js/main.31346db6.js.map",
     "787.e56f57c5.chunk.js.map": "/RickiAndMorty/static/js/787.e56f57c5.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a9d415eb.css",
-    "static/js/main.14d33f81.js"
+    "static/js/main.31346db6.js"
   ]
 }
