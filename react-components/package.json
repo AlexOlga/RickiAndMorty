@@ -2,7 +2,7 @@
   "name": "react-components",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://rolling-scopes-school.github.io/alexolga-REACT2022Q3/",
+  "homepage": "https://alexolga.github.io/RickiAndMorty/",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",
     "@testing-library/jest-dom": "^5.16.5",

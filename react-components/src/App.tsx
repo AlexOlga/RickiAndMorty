@@ -10,7 +10,6 @@ import HomePage from 'components/home-page';
 import CardPage from 'components/cardPage/cardPage';
 
 function App() {
-  // const [state, dispatch] = useReducer(reducer, defaultState);
   const [title, setTitle] = useState(<></>);
 
   const currentPosition = useAppSelector((state) => state.search.currentPosition);
