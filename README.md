@@ -1,2 +1,2 @@
-# alexolga-REACT2022Q3
-Private repository for @alexolga
+Ricki and Morty. Для написания кода приложения используется React, Redux, TypeScript
+
